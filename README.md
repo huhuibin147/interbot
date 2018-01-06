@@ -1,3 +1,4 @@
-interbot
+# interbot v0.1
+</br>
+基于coolq-http-api/CQHttp Python SDK
 
-主体从webq转向酷Q
