@@ -22,10 +22,10 @@ logging.basicConfig(
     datefmt='%Y-%d-%m %H:%M:%S'
 )
 # 初始化群列表信息
-rds = interRedis.interRds()
-group_list = bot.get_group_list()
-for g in group_list:
-    rds.set(Config.KEY_GROUP_NAME_PREFIX+str(g['group_id']), g['group_name'])
+r = interRedis.interRedis()
+r.init_group_name(bot)
+# 初始化群员昵称
+# TODO
 
 # 监听启动
 bot.run(host='127.0.0.1', port=8888)
