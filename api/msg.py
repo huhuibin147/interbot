@@ -1,4 +1,5 @@
 import logging
+import traceback
 
 from comm import interRedis
 from comm import Config
@@ -24,8 +25,12 @@ class Bot():
 
 
 def MsgCenter(bot, context):
-    b = Bot(bot, context)
-    ret = msg2cmd.invoke(b)
-    if ret == 'not define':
-        return
-    b.bot.send_group_msg(group_id=b.group_id, message=ret)
+    try:
+        b = Bot(bot, context)
+        ret = msg2cmd.invoke(b)
+        if ret == 'not define':
+            return
+        b.bot.send_group_msg(group_id=b.group_id, message=ret)
+    except:
+        traceback.print_exc()
+        b.bot.send_group_msg(group_id=b.group_id, message=Config.ERROR_MSG_RETURN)
