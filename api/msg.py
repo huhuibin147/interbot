@@ -11,21 +11,23 @@ class Bot():
         self.context = context
         self.bot = bot
         self.group_id = context['group_id']
-        self.user_id = context['user_id']
+        self.qq = context['user_id']
         self.message = context['message']
         # TODO 
-        # self.usercard = bot.get_group_member_info(group_id=self.group_id,user_id=self.user_id)['card']
+        # self.usercard = bot.get_group_member_info(group_id=self.group_id,user_id=self.qq)['card']
         self.group_name = self.rds.hget(Config.KEY_GROUP_NAME_PREFIX,self.group_id).decode()
-        logging.info('[%s][%s] %s'%(self.group_name, self.user_id, self.message))
+        logging.info('[%s][%s] %s'%(self.group_name, self.qq, self.message))
 
     def test(self):
-        if self.user_id == 405622418 and self.message == '!hello':
+        if self.qq == 405622418 and self.message == '!hello':
             self.bot.send_group_msg(group_id=self.group_id,message='响应test')
 
 
 
 def MsgCenter(bot, context):
     try:
+        if context['group_id'] not in Config.PERMISSION_GROUP_LIST:
+            return
         b = Bot(bot, context)
         ret = msg2cmd.invoke(b)
         if ret == 'not define':
@@ -33,4 +35,4 @@ def MsgCenter(bot, context):
         b.bot.send_group_msg(group_id=b.group_id, message=ret)
     except:
         traceback.print_exc()
-        b.bot.send_group_msg(group_id=b.group_id, message=Config.ERROR_MSG_RETURN)
+        # b.bot.send_group_msg(group_id=b.group_id, message=Config.ERROR_MSG_RETURN)

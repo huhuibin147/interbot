@@ -10,9 +10,12 @@ bot = CQHttp(api_root='http://127.0.0.1:5700/')
 
 @bot.on_message()
 def handle_msg(context):
-    t = threading.Thread(target=msg.MsgCenter, args=(bot, context))
-    t.start()
-    return
+    try:
+        t = threading.Thread(target=msg.MsgCenter, args=(bot, context))
+        t.start()
+        return
+    except:
+        return
 
 
 # 初始化日志格式
