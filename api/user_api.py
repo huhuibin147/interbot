@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 import traceback
 from libs import osu_user
 from libs import mods

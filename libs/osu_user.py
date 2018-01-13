@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 import random
 import traceback
 from comm import interRequest

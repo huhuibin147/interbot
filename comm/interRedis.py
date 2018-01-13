@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import redis
 from comm import Config
 
@@ -19,3 +20,5 @@ class interRedis():
         for g in group_list:
             group_map[g['group_id']] = g['group_name']
         self.rds.hmset(Config.KEY_GROUP_NAME_PREFIX, group_map)
+
+

@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 from libs import osu_user
 
 def uid_find_or_input(uid=None, qq=None, can_input=True, return_type=0):

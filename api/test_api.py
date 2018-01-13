@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 from libs import osu_user
 from libs import healthCheck
 
@@ -11,3 +11,6 @@ def test(uid):
 def new_test():
     return '你不适合屙屎,请你去世!(给我加id'
 
+def mc():
+    msg = "'s card:\n【SSR系列】\ninterbot (1w)\ninterbot (10w)\ninterbot (100w)"
+    return msg

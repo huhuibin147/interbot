@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 mod_list={
     0: 'NONE',
     1: 'NF',

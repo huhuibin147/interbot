@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 
 def new_help():
     msg = 'interbot重构v0.1\n\
