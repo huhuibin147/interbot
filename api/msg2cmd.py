@@ -60,6 +60,11 @@ def invoke(b):
         msg = test_api.mc()
         return '[CQ:at,qq=%s] %s' % (b.qq, msg)
 
+    elif '!setid' in b.message:
+        uid = b.message[7:]
+        msg = user_api.setid(uid, b.qq, b.group_id)
+        return '[CQ:at,qq=%s] %s' % (b.qq, msg)
+        
     else:
         msg = cbot_api.autoreply(b.globValue)
         chatlog.Chat2Redis(b.group_id, Config.LOGGING_QQ, msg)

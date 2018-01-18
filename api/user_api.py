@@ -35,6 +35,20 @@ def get_bp5info(uid):
         traceback.print_exc()
         return '没有Bp,下一个!!'
 
+
+def setid(uid, qq, groupid):
+    uinfo = get_osuer_info(uid)
+    if not uinfo:
+        return '绑定失败!(why?你自己猜吧'
+    u = osu_user.Osuer()
+    if not u.insert2DB(qq, uinfo['user_id'], groupid, uinfo['username']):
+        return '绑定失败,interBot数据库被玩坏了!'
+    return '绑定成功,使用myinfo查询信息!'
+
+def get_osuer_info(uid):
+    u = osu_user.Osuer()
+    return u.get_user_info(uid)
+
 def check(uid):
     u = osu_user.Osuer()
     pp,pp2,maxpp = u.check_user(uid)

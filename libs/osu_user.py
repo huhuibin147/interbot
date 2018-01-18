@@ -45,6 +45,25 @@ class Osuer():
             return None
         return self.userinfo['pp_raw']
 
+    def insert2DB(self, qq, osuid, groupid, osuname, name=None):
+        try:
+            conn = interMysql.Connect()
+            sql = '''
+                insert into user
+                    (qq, osuid, name, groupid, osuname) 
+                values
+                    (%s,%s,%s,%s,%s)
+                on duplicate key update
+                    osuid = %s, osuname = %s, name = %s
+            '''
+            args = [qq, osuid, name, groupid, osuname, osuid, osuname, name]
+            ret = conn.execute(sql, args)
+            conn.commit()
+            return ret
+        except:
+            traceback.print_exc()
+            conn.rollback()
+            return 0
 
     def check_user(self, uid):
         '''pp估计计算'''
