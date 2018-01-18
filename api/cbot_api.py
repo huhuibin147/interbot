@@ -12,7 +12,7 @@ def speak(globValue):
     return randMsg(globValue)
 
 def autoreply(globValue):
-    if random.randint(0,100) > 97:
+    if random.randint(0,100) > 99:
         return randMsg(globValue)
     return None
 

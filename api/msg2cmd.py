@@ -5,6 +5,7 @@ from api import test_api
 from api import user_api
 from api import cbot_api
 from libs import args_func
+from libs import chatlog
 from comm import Config
 
 def invoke(b):
@@ -61,5 +62,6 @@ def invoke(b):
 
     else:
         msg = cbot_api.autoreply(b.globValue)
+        chatlog.Chat2Redis(b.group_id, Config.LOGGING_QQ, msg)
         return msg if msg else 'not define'
 

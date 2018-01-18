@@ -5,6 +5,7 @@ import logging
 from comm import interMysql
 from comm import Config
 from api import cbot_api
+from libs import chatlog
 
 def msg_recollect(globValue):
     try:
@@ -35,5 +36,8 @@ def speak_task(bot, globValue):
     groupid = random.sample(Config.SPEAK_GROUP_LIST,1)[0]
     if random.randint(0,100) > 95 and cbot_api.speak_level_check(groupid):
         logging.info('触发群%s的speak'%groupid)
-        bot.send_group_msg(group_id=groupid, message=cbot_api.speak(globValue))
+        msg = cbot_api.speak(globValue)
+        bot.send_group_msg(group_id=groupid, message=msg)
+        # 自消息处理
+        chatlog.Chat2Redis(groupid, Config.LOGGING_QQ, msg)
     return
