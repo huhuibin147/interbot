@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import random
+import traceback
 from api import help_api
 from api import test_api
 from api import user_api
@@ -67,7 +68,19 @@ def invoke(b):
         return '[CQ:at,qq=%s] %s' % (b.qq, msg)
         
     elif '!kw' in b.message:
-        return chattrain_api.kw(b.message[4:], b.globValue)
+        try:
+            return chattrain_api.kw(b.message[4:], b.globValue)
+        except:
+            return '%s不在interbot的词汇表中' % b.message[4:]
+
+    elif '!trainwords' == b.message and b.qq == Config.SUPER_QQ:
+        try:
+            b.bot.send_group_msg(group_id=b.group_id, message='啊啊啊!interbot被抓去训练了!')
+            chattrain_api.chat_train_job(b.globValue, b.gV_Lock, skip_rds=True)
+            return 'interbot感觉还行,训练归来!'
+        except:
+            traceback.print_exc()
+            return 'interbot感觉不对劲,训练异常!'
 
     else:
         msg = cbot_api.autoreply(b.globValue)

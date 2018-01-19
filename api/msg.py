@@ -7,7 +7,7 @@ from comm import Config
 from api import msg2cmd
 
 class Bot():
-    def __init__(self, bot, context, globValue):
+    def __init__(self, bot, context, globValue, gV_Lock):
         # self.rds = interRedis.interRds()
         self.context = context
         self.bot = bot
@@ -15,6 +15,7 @@ class Bot():
         self.qq = context['user_id']
         self.message = context['message']
         self.globValue = globValue
+        self.gV_Lock = gV_Lock
         # TODO 
         # self.usercard = bot.get_group_member_info(group_id=self.group_id,user_id=self.qq)['card']
         # self.group_name = self.rds.hget(Config.KEY_GROUP_NAME_PREFIX,self.group_id).decode()
@@ -22,12 +23,12 @@ class Bot():
 
 
 
-def MsgCenter(bot, context, globValue):
+def MsgCenter(bot, context, globValue, gV_Lock):
     try:
         # 群控制
         if context['group_id'] not in Config.PERMISSION_GROUP_LIST:
             return
-        b = Bot(bot, context, globValue)
+        b = Bot(bot, context, globValue, gV_Lock)
         ret = msg2cmd.invoke(b)
         auto_escape = False
         # if type(ret) == 'list':

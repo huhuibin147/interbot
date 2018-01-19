@@ -11,9 +11,9 @@ from cbot import segment
 from gensim import models
 
 
-def chat_train_job(globValue, gV_Lock):
+def chat_train_job(globValue, gV_Lock, skip_rds=False):
     # 训练任务接口
-    Ctrain(globValue, gV_Lock).chat_train()
+    Ctrain(globValue, gV_Lock).chat_train(skip_rds)
     return
     
 def kw(key, globValue):

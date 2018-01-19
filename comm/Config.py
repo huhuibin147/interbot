@@ -2,6 +2,8 @@
 
 # 登录QQ
 LOGGING_QQ = 1677323371
+# 超级权限
+SUPER_QQ = 405622418
 # int100 api key
 INT100_API_KEY = '44d6C4GdhLnGlq8WvkvsHOPKToMAQmiG'
 # 群列表映射

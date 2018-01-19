@@ -17,4 +17,4 @@ def jobCenter(bot, globValue, gV_Lock):
     sched.add_job(chattrain_api.chat_train_job, 'interval', hours=1, args=[globValue, gV_Lock])
     
     sched.start()
-
+    return

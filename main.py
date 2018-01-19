@@ -19,7 +19,7 @@ globValue = {}
 def handle_msg(context):
     try:
         # TODO线程池
-        t = threading.Thread(target=msg.MsgCenter, args=(bot, context, globValue))
+        t = threading.Thread(target=msg.MsgCenter, args=(bot, context, globValue, gV_Lock))
         t.start()
         return
     except:
