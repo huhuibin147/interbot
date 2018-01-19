@@ -4,6 +4,7 @@ from api import help_api
 from api import test_api
 from api import user_api
 from api import cbot_api
+from api import chattrain_api
 from libs import args_func
 from libs import chatlog
 from comm import Config
@@ -65,6 +66,9 @@ def invoke(b):
         msg = user_api.setid(uid, b.qq, b.group_id)
         return '[CQ:at,qq=%s] %s' % (b.qq, msg)
         
+    elif '!kw' in b.message:
+        return chattrain_api.kw(b.message[4:], b.globValue)
+
     else:
         msg = cbot_api.autoreply(b.globValue)
         chatlog.Chat2Redis(b.group_id, Config.LOGGING_QQ, msg)

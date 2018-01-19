@@ -8,7 +8,7 @@ from api import msg2cmd
 
 class Bot():
     def __init__(self, bot, context, globValue):
-        self.rds = interRedis.interRds()
+        # self.rds = interRedis.interRds()
         self.context = context
         self.bot = bot
         self.group_id = context['group_id']
@@ -17,12 +17,8 @@ class Bot():
         self.globValue = globValue
         # TODO 
         # self.usercard = bot.get_group_member_info(group_id=self.group_id,user_id=self.qq)['card']
-        self.group_name = self.rds.hget(Config.KEY_GROUP_NAME_PREFIX,self.group_id).decode()
-        logging.info('[%s][%s] %s'%(self.group_name, self.qq, self.message))
-
-    def test(self):
-        if self.qq == 405622418 and self.message == '!hello':
-            self.bot.send_group_msg(group_id=self.group_id,message='响应test')
+        # self.group_name = self.rds.hget(Config.KEY_GROUP_NAME_PREFIX,self.group_id).decode()
+        logging.info('[%s][%s] %s'%(self.group_id, self.qq, self.message))
 
 
 
@@ -34,9 +30,9 @@ def MsgCenter(bot, context, globValue):
         b = Bot(bot, context, globValue)
         ret = msg2cmd.invoke(b)
         auto_escape = False
-        if type(ret) == 'list':
-            ret = ret[1]
-            auto_escape = True
+        # if type(ret) == 'list':
+        #     ret = ret[1]
+        #     auto_escape = True
         if ret == 'not define':
             return
         b.bot.send_group_msg(group_id=b.group_id, message=ret, auto_escape=auto_escape)

@@ -7,7 +7,7 @@ from comm import Config
 from api import cbot_api
 from libs import chatlog
 
-def msg_recollect(globValue):
+def msg_recollect(globValue, gV_Lock):
     try:
         conn = interMysql.Connect()
         sql = '''
@@ -27,14 +27,16 @@ def msg_recollect(globValue):
                 break 
             if len(r['content']) < 30:
                 msglist.add(r['content'])
+        gV_Lock.acquire()
         globValue['msglist'] = msglist
+        gV_Lock.release()
         logging.info('词库自动更新,条数:%s' % len(msglist))
     except:
         traceback.print_exc()
 
 def speak_task(bot, globValue):
     groupid = random.sample(Config.SPEAK_GROUP_LIST,1)[0]
-    if random.randint(0,100) > 95 and cbot_api.speak_level_check(groupid):
+    if random.randint(0,100) > Config.AUTOSPEAK_PCT and cbot_api.speak_level_check(groupid):
         logging.info('触发群%s的speak'%groupid)
         msg = cbot_api.speak(globValue)
         bot.send_group_msg(group_id=groupid, message=msg)

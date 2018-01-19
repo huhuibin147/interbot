@@ -12,7 +12,7 @@ def speak(globValue):
     return randMsg(globValue)
 
 def autoreply(globValue):
-    if random.randint(0,100) > 99:
+    if random.randint(0,100) > Config.AUTOREPLY_PCT:
         return randMsg(globValue)
     return None
 

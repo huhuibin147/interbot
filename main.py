@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import threading
 import logging
 from cqhttp import CQHttp
@@ -9,7 +10,8 @@ from comm import Config
 
 bot = CQHttp(api_root='http://127.0.0.1:5700/')
 
-
+# 全局变量锁
+gV_Lock = threading.RLock()
 # 初始化共享变量
 globValue = {}
 
@@ -32,17 +34,17 @@ logging.basicConfig(
 )
 logging.info('interbot各种加载初始化中...')
 # 初始化群列表信息
-r = interRedis.interRedis()
-r.init_group_name(bot)
+# r = interRedis.interRedis()
+# r.init_group_name(bot)
 # 初始化群员昵称
 # TODO
 
 # 初始化全局变量
-initGlobValue.init(globValue)
+initGlobValue.init(globValue, gV_Lock)
 
 
 # 定时任务
-sched_t = threading.Thread(target=job.jobCenter, args=(bot, globValue))
+sched_t = threading.Thread(target=job.jobCenter, args=(bot, globValue, gV_Lock))
 sched_t.setDaemon(True)
 sched_t.start()
 
