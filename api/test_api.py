@@ -47,7 +47,6 @@ def todaybp(uid):
     for bp in todaybp:
         acc = mods.get_acc(bp['count300'], bp['count100'], bp['count50'], bp['countmiss'])
         mod = mods.get_mods_name(bp['enabled_mods'])
-        mtext = mtext + "bp%s acc: %.2f%% pp: %.2fpp rank: %s +%s\n" % (str(bp['num']), acc, float(bp['pp']), bp['rank'], mod)
-
+        mtext = mtext + "bp%s,%.2fpp,%.2f%%,%s,+%s\n" % (bp['num'], float(bp['pp']), acc, bp['rank'], mod)
 
     return mtext[:-1]

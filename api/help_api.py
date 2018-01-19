@@ -1,8 +1,19 @@
 # -*- coding: utf-8 -*-
 
 def new_help():
-    msg = 'interbot重构v0.1\n\
-    new site:iinterbot.github.io'
+    msg = '''interbot 阉割版v0.2
+1.setid xxx(请绑定)
+2.check xxx(inter随机乱算的)
+3.test 健康指数(dalou公式)
+4.bbp 用来秀bp?
+5.sp 新人群专属番
+6.skill
+7.vssk +osuid 对比
+8.upage xx,2
+9.map 低端推荐pp图
+10. kw word (词关联
+11.cr,kr(指令/话痨榜
+12.todaybp(从小int偷的'''
     return msg
 
 
