@@ -113,6 +113,11 @@ def invoke(b):
         uid = args_func.uid_find_or_input(b.message[9:], b.qq, return_type=1)
         return test_api.todaybp(uid)
 
+    elif '!rctpp' in b.message:
+        uid = args_func.uid_find_or_input(b.message[7:], b.qq, return_type=1)
+        return test_api.rctpp(uid)
+
+
     else:
         msg = cbot_api.autoreply(b.globValue)
         chatlog.Chat2Redis(b.group_id, Config.LOGGING_QQ, msg)

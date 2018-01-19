@@ -45,6 +45,15 @@ class Osuer():
             return None
         return self.userinfo['pp_raw']
 
+    def get_recent(self, uid=None, m=0, limit=10):
+        uid = uid if uid else self.uid
+        url = 'https://osu.ppy.sh/api/get_user_recent?k=%s&u=%s&m=%s&limit=%s' % (Config.OSU_API_KEY, uid, m ,limit)
+        r = interRequest.interReq(url)
+        ret = r.get()
+        self.userbp = ret
+        return self.userbp
+        
+
     def insert2DB(self, qq, osuid, groupid, osuname, name=None):
         try:
             conn = interMysql.Connect()

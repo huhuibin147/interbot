@@ -13,7 +13,8 @@ def new_help():
 9.map 低端推荐pp图
 10. kw word (词关联
 11.cr,kr(指令/话痨榜
-12.todaybp(从小int偷的'''
+12.todaybp(从小int偷的
+13.rctpp(从小int偷的'''
     return msg
 
 

@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+import os
+import requests
+import json
+from io import TextIOWrapper
+
 mod_list={
     0: 'NONE',
     1: 'NF',
@@ -51,6 +56,14 @@ def get_acc(c300, c100, c50, cmiss):
     acc = tph / tnh / 3
     return acc
 
+def calcpp(bid, acc=100.0, combo=-1, mod="none"):
+    if not os.path.exists("mapinfo/cache/" + str(bid) + ".osu"):
+        if not download_file("http://osu.ppy.sh/osu/" + str(bid), str(bid) + ".osu", "mapinfo/cache"):
+            return [False, 1]
+
+    result = os.popen("\"oppai.exe\" mapinfo/cache/{0}.osu -ojson {1}% {2}x +{3}".format(bid, acc, combo, mod))
+    result1 = TextIOWrapper(result.buffer, "utf-8")
+    return json.loads(result1.read(), encoding="utf-8")
 
 def get_mods_name(bitset):
     mods = getMod(int(bitset))
@@ -60,3 +73,22 @@ def get_mods_name(bitset):
 
     return name
 
+def download_file(url, savename, savepath="cache"):
+    if not os.path.exists(savepath):
+        os.makedirs(savepath)
+
+    savepath = os.path.join(savepath, savename)
+
+    r = requests.get(url, stream=True)
+    f = open(savepath, "wb")
+    for chunk in r.iter_content(chunk_size=512):
+        if chunk:
+            f.write(chunk)
+
+    f.close()
+
+    if not os.path.getsize(savepath):
+        os.remove(savepath)
+        return False
+
+    return True
