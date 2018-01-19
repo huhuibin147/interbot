@@ -41,13 +41,14 @@ logging.info('interbot各种加载初始化中...')
 
 # 初始化全局变量
 initGlobValue.init(globValue, gV_Lock)
-
+logging.info('初始化完成!')
 
 # 定时任务
 sched_t = threading.Thread(target=job.jobCenter, args=(bot, globValue, gV_Lock))
 sched_t.setDaemon(True)
 sched_t.start()
 
+logging.info('interbot各种加载完成!!')
 
 # 监听启动
 bot.run(host='127.0.0.1', port=8888)

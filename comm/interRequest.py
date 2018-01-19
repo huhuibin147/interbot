@@ -4,7 +4,7 @@ import json
 import logging
 
 class interReq():
-    def __init__(self, url=None, params=None):
+    def __init__(self, url=None, params=None, timeout=5):
         self.headers = {
             'Accept' : 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Accept-Encoding' : 'gzip, deflate, br',
@@ -17,7 +17,7 @@ class interReq():
         } 
         self.url = url
         self.params = params
-        self.timeout = 5
+        self.timeout = timeout
 
 
     def post(self, url=None, params=None):

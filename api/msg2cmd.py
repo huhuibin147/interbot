@@ -5,6 +5,9 @@ from api import help_api
 from api import test_api
 from api import user_api
 from api import cbot_api
+from api import rank_api
+from api import req_api
+from api import sp_api
 from api import chattrain_api
 from libs import args_func
 from libs import chatlog
@@ -81,6 +84,34 @@ def invoke(b):
         except:
             traceback.print_exc()
             return 'interbot感觉不对劲,训练异常!'
+
+    elif '!skill' in b.message:
+        uid = args_func.uid_find_or_input(b.message[7:], b.qq, return_type=1)
+        return req_api.get_skill(uid)
+
+    elif '!vssk' in b.message:
+        uid = args_func.uid_find_or_input(qq=b.qq, return_type=1)
+        if not uid:
+            return '本bot根本不认识你(请绑定ID'
+        return req_api.skill_vs(uid, b.message[6:])
+
+    elif '!sp' == b.message:
+        return sp_api.get_xinrenqun_replay()
+
+    elif '!upage' in b.message:
+        slist = b.message[7:].replace('，',',').split(',')
+        page = 1 if len(slist) == 1 else int(slist[1])
+        return req_api.get_userpage(slist[0], page)
+        
+    elif '!kr' == b.message:
+        return rank_api.talk_rank(b.bot, b.group_id, nums=7)
+
+    elif '!cr' == b.message:
+        return rank_api.cmd_rank(b.group_id, nums=7)
+
+    elif '!todaybp' in b.message:
+        uid = args_func.uid_find_or_input(b.message[9:], b.qq, return_type=1)
+        return test_api.todaybp(uid)
 
     else:
         msg = cbot_api.autoreply(b.globValue)

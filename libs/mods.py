@@ -38,10 +38,25 @@ def getMod(num=16504):
     
     return mods
 
+def get_acc(c300, c100, c50, cmiss):
+    c300 = int(c300)
+    c100 = int(c100)
+    c50 = int(c50)
+    cmiss = int(cmiss)
 
-if __name__ == '__main__':
-    print(getMod(8))
-    print(getMod(16))
-    print(getMod(24))
-    print(getMod(64))
-    print(getMod(72))
+    tph = c50 * 50 + c100 * 100 + c300 * 300
+
+    tnh = cmiss + c50 + c100 + c300
+
+    acc = tph / tnh / 3
+    return acc
+
+
+def get_mods_name(bitset):
+    mods = getMod(int(bitset))
+    name = ""
+    for m in mods:
+        name = name + m
+
+    return name
+
