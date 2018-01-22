@@ -37,8 +37,7 @@ def MsgCenter(bot, context, globValue, gV_Lock):
         if ret == 'not define':
             return
         b.bot.send_group_msg(group_id=b.group_id, message=ret, auto_escape=auto_escape)
-        return
     except:
         traceback.print_exc()
         # b.bot.send_group_msg(group_id=b.group_id, message=Config.ERROR_MSG_RETURN)
-        return
+    return

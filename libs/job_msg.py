@@ -33,6 +33,7 @@ def msg_recollect(globValue, gV_Lock):
         logging.info('词库自动更新,条数:%s' % len(msglist))
     except:
         traceback.print_exc()
+    return
 
 def speak_task(bot, globValue):
     groupid = random.sample(Config.SPEAK_GROUP_LIST,1)[0]

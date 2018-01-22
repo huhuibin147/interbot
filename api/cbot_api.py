@@ -34,12 +34,15 @@ def speak_level_check(groupid):
             return 1
     except:
         traceback.print_exc()
+        return
 
 def msg2Redis(b):
     chatlog.Chat2Redis(b.group_id, b.qq, b.message)
+    return
 
 def msg2Mysql(b):
     f_msg = re.sub('\[.*\]','',b.message)
     if not f_msg or f_msg == ' ' or len(f_msg) > 250:
         return
     chatlog.Chat2DB(b.group_id, b.qq, f_msg)
+    return

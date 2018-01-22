@@ -80,9 +80,9 @@ class Connect(object):
         return pn*rn, rn
 
 
-if __name__ == '__main__':
-    m = Connect()
-    res = m.queryPage('select osuid from user', pn=1, rn=5)
-    print(res)
+# if __name__ == '__main__':
+#     m = Connect()
+#     res = m.queryPage('select osuid from user', pn=1, rn=5)
+#     print(res)
 
 

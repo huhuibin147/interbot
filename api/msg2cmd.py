@@ -123,3 +123,4 @@ def invoke(b):
         chatlog.Chat2Redis(b.group_id, Config.LOGGING_QQ, msg)
         return msg if msg else 'not define'
 
+    return

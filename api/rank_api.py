@@ -67,6 +67,7 @@ def talkFromDB(groupid, nums):
         return ret
     except:
         traceback.print_exc()
+    return
 
 def cmdFromDB(groupid, nums):
     try:
@@ -84,3 +85,4 @@ def cmdFromDB(groupid, nums):
         return ret
     except:
         traceback.print_exc()
+    return

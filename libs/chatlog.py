@@ -22,6 +22,7 @@ def Chat2DB(groupid, qq, content):
     except:
         traceback.print_exc()
         conn.rollback()
+    return
 
 def Chat2Redis(groupid, qq, message):
     try:
@@ -36,3 +37,4 @@ def Chat2Redis(groupid, qq, message):
         rds.set(key, json.dumps(chatlog))
     except:
         traceback.print_exc()
+    return

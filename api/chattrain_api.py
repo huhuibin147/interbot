@@ -45,6 +45,7 @@ class Ctrain():
             self.load_seg_model()
         except:
             traceback.print_exc()
+        return
 
     def is_train(self):
         # 1-跳过 0-未跳过
@@ -69,3 +70,4 @@ class Ctrain():
             logging.info('模型载入成功！')
         except:
             traceback.print_exc()
+        return

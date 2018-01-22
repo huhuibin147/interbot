@@ -1,5 +1,5 @@
 
-# from libs import osu_user
+from libs import osu_user
 from libs import mods
 # from comm import interRedis
 # from api import skill_api
@@ -23,9 +23,9 @@ import traceback
 # chatlog = chatlog.decode('utf8')
 # print(json.loads(chatlog)[0].get('qq'))
 
-# o=osu_user.Osuer()
-# ret = o.get_user_info('-inter-')
-# print(ret)
+o=osu_user.Osuer()
+ret = o.get_user_info('-inter2-')
+print(ret)
 # try:
 #     globValue = {}
 #     gV_Lock = threading.RLock()
@@ -38,4 +38,4 @@ import traceback
  
 # print(mods.get_acc(100, 200, 300, 0))
 # print(rank_api.cmd_rank(614892339)) 
-print(test_api.todaybp('yimoQWQ'))
+# print(test_api.todaybp('yimoQWQ'))
