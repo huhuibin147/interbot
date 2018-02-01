@@ -67,7 +67,7 @@ def rctpp(uid):
     # now
     now_acc = mods.get_acc(recent['count300'], recent['count100'], recent['count50'], recent['countmiss'])
     
-    now_res = mods.calcpp(bid, now_acc, int(recent['maxcombo']), mods.get_mods_name(recent['enabled_mods']))
+    now_res = mods.calcpp(bid, now_acc, int(recent['maxcombo']), mods.get_mods_name(recent['enabled_mods']), recent['countmiss'])
 
     # if fc
     fc_acc = mods.get_acc(recent['count300'], recent['count100'], recent['count50'], 0)

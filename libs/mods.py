@@ -56,12 +56,12 @@ def get_acc(c300, c100, c50, cmiss):
     acc = tph / tnh / 3
     return acc
 
-def calcpp(bid, acc=100.0, combo=-1, mod="none"):
+def calcpp(bid, acc=100.0, combo=-1, mod="none", misses=0):
     if not os.path.exists("mapinfo/cache/" + str(bid) + ".osu"):
         if not download_file("http://osu.ppy.sh/osu/" + str(bid), str(bid) + ".osu", "mapinfo/cache"):
             return [False, 1]
 
-    result = os.popen("\"oppai.exe\" mapinfo/cache/{0}.osu -ojson {1}% {2}x +{3}".format(bid, acc, combo, mod))
+    result = os.popen("\"oppai.exe\" mapinfo/cache/{0}.osu -ojson {1}% {2}x +{3} {4}m".format(bid, acc, combo, mod, misses))
     result1 = TextIOWrapper(result.buffer, "utf-8")
     return json.loads(result1.read(), encoding="utf-8")
 

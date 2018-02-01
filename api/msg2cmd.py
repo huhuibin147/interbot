@@ -11,6 +11,7 @@ from api import sp_api
 from api import chattrain_api
 from libs import args_func
 from libs import chatlog
+from api import msg_permission
 from comm import Config
 
 def invoke(b):
@@ -109,11 +110,11 @@ def invoke(b):
     elif '!cr' == b.message:
         return rank_api.cmd_rank(b.group_id, nums=7)
 
-    elif '!todaybp' in b.message:
+    elif '!todaybp' in b.message and b.group_id not in msg_permission.PermissionGroup:
         uid = args_func.uid_find_or_input(b.message[9:], b.qq, return_type=1)
         return test_api.todaybp(uid)
 
-    elif '!rctpp' in b.message:
+    elif '!rctpp' in b.message and b.group_id not in msg_permission.PermissionGroup:
         uid = args_func.uid_find_or_input(b.message[7:], b.qq, return_type=1)
         return test_api.rctpp(uid)
 
