@@ -51,7 +51,7 @@ sched_t.start()
 logging.info('interbot各种加载完成!!')
 
 # 监听启动
-bot.run(host='127.0.0.1', port=8888)
+bot.run(host='127.0.0.1', port=8889)
 
 
 

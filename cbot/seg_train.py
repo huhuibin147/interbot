@@ -8,7 +8,7 @@ def run():
 
     # logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
     sentences = word2vec.Text8Corpus('cbot\chat_seg.txt')
-    model = word2vec.Word2Vec(sentences, size=500)
+    model = word2vec.Word2Vec(sentences, size=100)
     # model = word2vec.Word2Vec(sentences=None, size=100, alpha=0.025, window=5, min_count=5, max_vocab_size=None, sample=0.001, seed=1, workers=3, min_alpha=0.0001, sg=0, hs=0, negative=5, cbow_mean=1, hashfxn=<built-in function hash>, iter=5, null_word=0, trim_rule=None, sorted_vocab=1, batch_words=10000)
     # sentences:當然了，這是要訓練的句子集，沒有他就不用跑了
     # size:這表示的是訓練出的詞向量會有幾維
