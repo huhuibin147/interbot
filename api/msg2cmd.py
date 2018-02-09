@@ -144,6 +144,14 @@ def invoke(b):
             bid = str(msgs[1])
         return rank_tab.get_rankinfo(uid, b.group_id, bid, hid=1, mod=-1)
 
+    elif '!top' in b.message:
+        uid,uname = args_func.uid_find_or_input(qq=b.qq, can_input=False, return_type=2)
+        ret = rank_tab.get_topsnum(uid, b.group_id, hid=1, mod=-1)
+        return ret.replace('{uid}', uname)
+
+    elif '!new' == b.message:
+        return help_api.rank_help()
+
     else:
         msg = cbot_api.autoreply(b.globValue)
         chatlog.Chat2Redis(b.group_id, Config.LOGGING_QQ, msg)

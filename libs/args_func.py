@@ -15,3 +15,5 @@ def uid_find_or_input(uid=None, qq=None, can_input=True, return_type=0):
         return ret['osuid']
     elif return_type == 1:
         return ret['osuname']
+    elif return_type == 2:
+        return ret['osuid'],ret['osuname']

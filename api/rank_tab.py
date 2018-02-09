@@ -74,8 +74,8 @@ def save_rec(uid, groupid, hid=1, limit=1):
     rec_args = score.args_format('rec', inRec)
     score.rec2db(rec_args)
 
-    rec1 = copy.deepcopy(newRec)
-    rec2 = copy.deepcopy(newRec)
+    rec1 = copy.deepcopy(inRec)
+    rec2 = copy.deepcopy(inRec)
     # 总榜临时处理
     score.map_rank(rec1, groupid, hid=1, rtype=1)
 
@@ -110,10 +110,20 @@ def get_rankinfo(uid, groupid, bid, hid=1, mod=-1):
             uid = k
             uids.append(uid)
             sco = v
-        m = ','.join(mods.getMod(int(sco[4])))
-        outstr += '#%s {%s} %s分 [%sx] %s%% +%s\n' % (i+1, uid, sco[0], sco[1], sco[3], m)
+        m = ','.join(mods.getMod(int(sco[5])))
+        outstr += '#%s {%s} %s分 [%sx] %s%% %s +%s\n' % (i+1, uid, sco[0], sco[1], sco[3], sco[4], m)
     res = o.get_usernames_by_uid(uids)
     for r in res:
         restr = '{%s}' % r['osuid']
         outstr = outstr.replace(restr, r['osuname'])
+    return outstr[:-1]
+
+def get_topsnum(uid, groupid, hid, mod=-1):
+    ret = score.hid_mytops(uid, groupid, hid=1, mods=-1)
+    if not ret:
+        return '太可怜了，没有一个榜top1与{uid}有缘！'
+    outstr = "{uid} 's top榜(%s个)\n" % len(ret)
+    ret = ret[:10]
+    for i,r in enumerate(ret):
+        outstr = outstr + '[%s]https://osu.ppy.sh/b/%s\n' % (i+1,r['bid'])
     return outstr[:-1]

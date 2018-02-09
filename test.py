@@ -42,7 +42,7 @@ import traceback
 # print(test_api.todaybp('yimoQWQ'))
 
 ############# 成绩提取  ###############
-#     JRC888   IronWitness   -inter-  Trustless532   614892339  641236878
+#     JRC888   IronWitness   -inter-  Trustless532   614892339  641236878 ykzl1969497633
 rank_tab.upload_rec('-inter-', 641236878, limit=10)
 #######################################
 # uid, groupid, bid, hid=1, mods=-1

@@ -114,18 +114,19 @@ def maps_top(bids, groupid, hid=1):
     return ret
 
 def rec_highscore(rec):
+    # 过滤同bid成绩，保留不同mod
     newRec = []
     r_dict = {}
     i_s = []
     for i,r in enumerate(rec):
         bid = r['beatmap_id']
         mod = r['enabled_mods']
-        score = r['enabled_mods']
+        score = r['score']
         if bid in r_dict:
             if mod in r_dict[bid]:
-                if int(score) > int(r_dict[bid][mod][1]):
-                    r_dict[bid][mod] = [score, i] 
+                if int(score) > int(r_dict[bid][mod][0]):
                     i_s.pop(i_s.index(r_dict[bid][mod][1]))
+                    r_dict[bid][mod] = [score, i] 
                     i_s.append(i)
             else:
                 r_dict[bid][mod] = [score, i] 
@@ -139,14 +140,38 @@ def rec_highscore(rec):
             newRec.append(r)
     return newRec
 
+def rec_highscore_nomod(rec):
+    # 只保留最高分bid，mod去除，总榜使用
+    newRec = []
+    r_dict = {}
+    i_s = []
+    for i,r in enumerate(rec):
+        bid = r['beatmap_id']
+        mod = r['enabled_mods']
+        score = r['score']
+        if bid in r_dict:
+            if int(score) > int(r_dict[bid][0]):
+                i_s.pop(i_s.index(r_dict[bid][1]))
+                r_dict[bid] = [score, i] 
+                i_s.append(i)
+        else:
+            r_dict[bid] = [score, i] 
+            i_s.append(i)
+    for i,r in enumerate(rec):
+        if i in i_s:
+            newRec.append(r)
+    return newRec
+
 def map_rank(rec, groupid, hid=1, rtype=1, topslimit=50):
     bids = [r['beatmap_id'] for r in rec]
     ranks_ret = maps_top(bids, groupid, hid)
     topusers, rankjsons = [],[]
-    print('rtype%s,rec %s'%(rtype,rec))
+    # print('rtype%s,rec %s'%(rtype,rec))
     newRec = []
     # 总榜处理,对rec进行扩展
     if rtype == 1:
+        # mod成绩优化
+        rec = rec_highscore_nomod(rec)
         for r in rec:
             r['true_mods'] = r['enabled_mods']
             r['enabled_mods'] = -1
@@ -156,10 +181,10 @@ def map_rank(rec, groupid, hid=1, rtype=1, topslimit=50):
         # {uname:[score,cb,time]}
         if rtype == 1:
             rankjsons = [json.dumps([{t['user_id']: [t['score'], t['maxcombo'], t['date'], mods.get_acc(t['count300'],\
-                t['count100'], t['count50'], t['countmiss']), t['true_mods']]}]) for t in rec]
+                t['count100'], t['count50'], t['countmiss']), t['rank'], t['true_mods']]}]) for t in rec]
         else:
             rankjsons = [json.dumps([{t['user_id']: [t['score'], t['maxcombo'], t['date'], mods.get_acc(t['count300'],\
-                t['count100'], t['count50'], t['countmiss']), t['enabled_mods']]}]) for t in rec]
+                t['count100'], t['count50'], t['countmiss']), t['rank'], t['enabled_mods']]}]) for t in rec]
     else:
         # 两个分支
         ranks_dict = {}
@@ -201,7 +226,7 @@ def map_rank(rec, groupid, hid=1, rtype=1, topslimit=50):
                     inindex = check_rankj(score_list, r['score'])
                     m = r['true_mods'] if rtype == 1 else r['enabled_mods']
                     rankj.insert(inindex, {r['user_id']: [r['score'], r['maxcombo'], r['date'], mods.get_acc(r['count300'],\
-                        r['count100'], r['count50'], r['countmiss']), m]})
+                        r['count100'], r['count50'], r['countmiss']), r['rank'], m]})
                     if inindex == 0:
                         topuser = r['user_id']
                     else:
@@ -214,7 +239,7 @@ def map_rank(rec, groupid, hid=1, rtype=1, topslimit=50):
                 topuser = r['user_id']
                 m = r['true_mods'] if rtype == 1 else r['enabled_mods']
                 rankj = [{r['user_id']: [r['score'], r['maxcombo'], r['date'], mods.get_acc(r['count300'],\
-                    r['count100'], r['count50'], r['countmiss']), m]}]
+                    r['count100'], r['count50'], r['countmiss']), r['rank'], m]}]
                 newRec.append(r)
             topusers.append(topuser)
             rankjsons.append(json.dumps(rankj))
@@ -268,4 +293,13 @@ def hid_ranks(bid, groupid, hid=1, mods=-1):
         where a.gid = %s and a.hid = %s and a.bid = %s and a.mods = %s
     '''
     ret = conn.query(sql, [groupid, hid, bid, mods])
+    return ret
+
+def hid_mytops(uid, groupid, hid=1, mods=-1):
+    # top1数量列表
+    conn = interMysql.Connect()
+    sql = '''
+        SELECT bid FROM maprank where gid=%s and hid=%s and mods=%s and uid=%s
+    '''
+    ret = conn.query(sql, [groupid, hid, mods, uid])
     return ret
