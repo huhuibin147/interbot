@@ -26,3 +26,10 @@ AUTOSPEAK_PCT = 97
 CHAT_TRAIN_KEY = 'WORDS_TRAIN'
 # chat训练缓存时间
 WORDS_TRAIN_SEC = 3400
+
+# 活动指定图
+HID = 1
+MAPID = 1028215
+MAP_URL_PREF = 'https://osu.ppy.sh/b/'
+
+

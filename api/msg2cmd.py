@@ -9,6 +9,7 @@ from api import rank_api
 from api import req_api
 from api import sp_api
 from api import chattrain_api
+from api import rank_tab
 from libs import args_func
 from libs import chatlog
 from api import msg_permission
@@ -116,8 +117,32 @@ def invoke(b):
 
     elif '!rctpp' in b.message and b.group_id not in msg_permission.PermissionGroup:
         uid = args_func.uid_find_or_input(b.message[7:], b.qq, return_type=1)
+        rank_tab.upload_rec(uid, b.group_id, limit=1)
         return test_api.rctpp(uid)
 
+    elif '!upd' in b.message:
+        uid = args_func.uid_find_or_input(qq=b.qq, return_type=1)
+        if not uid:
+            return '请绑定ID,再进行upload操作!'
+        return rank_tab.upload_rec(uid, b.group_id, limit=10)
+
+    elif '!hd' == b.message:
+        return '第四轮测试图 %s (!upd或!rctpp上传)' % (Config.MAP_URL_PREF + str(Config.MAPID))
+
+    elif '!hdrank' == b.message:
+        uid = args_func.uid_find_or_input(qq=b.qq, return_type=1)
+        if not uid:
+            uid = -1
+        return rank_tab.get_rankinfo(uid, b.group_id, Config.MAPID, hid=1, mod=-1)
+
+    elif '!rank' == b.message[0:5]:
+        uid = args_func.uid_find_or_input(qq=b.qq, return_type=1)
+        if not uid:
+            uid = None
+        msgs = b.message.split('&#44;')
+        if len(msgs) > 1:
+            bid = str(msgs[1])
+        return rank_tab.get_rankinfo(uid, b.group_id, bid, hid=1, mod=-1)
 
     else:
         msg = cbot_api.autoreply(b.globValue)

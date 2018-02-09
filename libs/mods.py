@@ -35,7 +35,7 @@ def getMod(num=16504):
         num=num>>1
         i+=1
     if not mods:
-        return ['none']
+        return ['NONE']
     if 'NC' in mods:
         mods.remove('DT')
     if 'PF' in mods:
@@ -54,7 +54,7 @@ def get_acc(c300, c100, c50, cmiss):
     tnh = cmiss + c50 + c100 + c300
 
     acc = tph / tnh / 3
-    return acc
+    return round(acc, 2)
 
 def calcpp(bid, acc=100.0, combo=-1, mod="none", misses=0):
     if not os.path.exists("mapinfo/cache/" + str(bid) + ".osu"):

@@ -40,6 +40,15 @@ class Osuer():
         self.userdbinfo = ret[0]
         return self.userdbinfo
 
+    def get_usernames_by_uid(self, uids):
+        conn = interMysql.Connect()
+        sql = 'SELECT osuid,osuname FROM user where osuid in (%s)'
+        sql = sql % (','.join(map(lambda x:'%s', uids)))
+        ret = conn.query(sql, uids)
+        if not ret:
+            return None
+        return ret
+
     def get_user_pp(self, uid):
         if not self.get_user_info(uid):
             return None
@@ -52,6 +61,13 @@ class Osuer():
         ret = r.get()
         self.userbp = ret
         return self.userbp
+
+    def get_beatmapinfo(self, bid):
+        url = 'https://osu.ppy.sh/api/get_beatmaps?k=%s&b=%s' % (Config.OSU_API_KEY, bid)
+        r = interRequest.interReq(url)
+        ret = r.get()
+        return ret
+        
         
 
     def insert2DB(self, qq, osuid, groupid, osuname, name=None):
