@@ -40,6 +40,14 @@ class Osuer():
         self.userdbinfo = ret[0]
         return self.userdbinfo
 
+    def get_user_from_db2(self, uname):
+        conn = interMysql.Connect()
+        sql = 'SELECT * FROM user where osuname = %s'
+        ret = conn.query(sql, uname)
+        if not ret:
+            return None
+        return ret[0]
+
     def get_usernames_by_uid(self, uids):
         conn = interMysql.Connect()
         sql = 'SELECT osuid,osuname FROM user where osuid in (%s)'

@@ -42,7 +42,7 @@ def rec2db(args):
 
 def rank2db(args):
     try:
-        print('入库参数:%s'%args)
+        # print('入库参数:%s'%args)
         conn = interMysql.Connect()
         sql = '''
             INSERT into maprank(gid, hid, bid, uid, type, mods, lastdate, rankjson) 
@@ -172,6 +172,7 @@ def map_rank(rec, groupid, hid=1, rtype=1, topslimit=50):
     if rtype == 1:
         # mod成绩优化
         rec = rec_highscore_nomod(rec)
+
         for r in rec:
             r['true_mods'] = r['enabled_mods']
             r['enabled_mods'] = -1
@@ -288,7 +289,7 @@ def hid_ranks(bid, groupid, hid=1, mods=-1):
     # 指定式查询 -- 未扩展
     conn = interMysql.Connect()
     sql = '''
-        SELECT a.bid, a.mods, a.rankjson, b.title, b.artist, b.version 
+        SELECT a.bid, a.mods, a.rankjson, b.title, b.artist, b.version, b.source
         from maprank a INNER JOIN beatmap b ON a.bid=b.bid 
         where a.gid = %s and a.hid = %s and a.bid = %s and a.mods = %s
     '''

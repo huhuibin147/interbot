@@ -51,7 +51,7 @@ def invoke(b):
             return '本bot根本不想给你推荐图QwQ(请绑定ID'
         return user_api.map(uid)
 
-    elif '!repeat' in b.message:
+    elif '!repeats' in b.message:
         return b.message[8:]
 
     elif '!helpme' == b.message:
@@ -117,10 +117,13 @@ def invoke(b):
 
     elif '!rctpp' in b.message and b.group_id not in msg_permission.PermissionGroup:
         uid = args_func.uid_find_or_input(b.message[7:], b.qq, return_type=1)
-        rank_tab.upload_rec(uid, b.group_id, limit=1)
+        try:
+            rank_tab.upload_rec(uid, b.group_id, limit=10)
+        except:
+            traceback.print_exc()
         return test_api.rctpp(uid)
 
-    elif '!upd' in b.message:
+    elif '!upd' == b.message:
         uid = args_func.uid_find_or_input(qq=b.qq, return_type=1)
         if not uid:
             return '请绑定ID,再进行upload操作!'
@@ -145,12 +148,19 @@ def invoke(b):
         return rank_tab.get_rankinfo(uid, b.group_id, bid, hid=1, mod=-1)
 
     elif '!top' in b.message:
-        uid,uname = args_func.uid_find_or_input(qq=b.qq, can_input=False, return_type=2)
+        uid,uname = args_func.uid_uname(uname=b.message[5:], qq=b.qq)
+        if not uname:
+            return '这谁啊???本Bot不认识这个人'
         ret = rank_tab.get_topsnum(uid, b.group_id, hid=1, mod=-1)
         return ret.replace('{uid}', uname)
 
     elif '!new' == b.message:
         return help_api.rank_help()
+
+    elif 'pick' in b.message or 'up' in b.message or 'my' in b.message:
+        uid = args_func.uid_find_or_input(qq=b.qq, return_type=1)
+        rank_tab.upload_rec(uid, b.group_id, limit=10)
+        return 'not define'
 
     else:
         msg = cbot_api.autoreply(b.globValue)

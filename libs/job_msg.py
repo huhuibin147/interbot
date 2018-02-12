@@ -36,11 +36,14 @@ def msg_recollect(globValue, gV_Lock):
     return
 
 def speak_task(bot, globValue):
-    groupid = random.sample(Config.SPEAK_GROUP_LIST,1)[0]
-    if random.randint(0,100) > Config.AUTOSPEAK_PCT and cbot_api.speak_level_check(groupid):
-        logging.info('触发群%s的speak'%groupid)
-        msg = cbot_api.speak(globValue)
-        bot.send_group_msg(group_id=groupid, message=msg)
-        # 自消息处理
-        chatlog.Chat2Redis(groupid, Config.LOGGING_QQ, msg)
+    try:
+        groupid = random.sample(Config.SPEAK_GROUP_LIST,1)[0]
+        if random.randint(0,100) > Config.AUTOSPEAK_PCT and cbot_api.speak_level_check(groupid):
+            logging.info('触发群%s的speak'%groupid)
+            msg = cbot_api.speak(globValue)
+            bot.send_group_msg(group_id=groupid, message=msg)
+            # 自消息处理
+            chatlog.Chat2Redis(groupid, Config.LOGGING_QQ, msg)
+    except:
+        traceback.print_exc()
     return

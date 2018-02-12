@@ -103,7 +103,7 @@ def get_rankinfo(uid, groupid, bid, hid=1, mod=-1):
     if not ret:
         return '榜上一个成绩都没有!!! https://osu.ppy.sh/b/%s' % bid
     ret = ret[0]
-    outstr = '%s %s[%s]\n' % (ret['artist'], ret['title'], ret['version'])
+    outstr = '%s(%s)-%s[%s]\n' % (ret['source'], ret['artist'], ret['title'], ret['version'])
     uids = []
     for i,r in enumerate(json.loads(ret['rankjson'])[:5]):
         for k,v in r.items():
