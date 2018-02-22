@@ -27,8 +27,8 @@ def rec2db(args):
     try:
         conn = interMysql.Connect()
         sql = '''
-            INSERT into recinfo(bid, uid, score, maxcombo, mods, playdate, lastdate, rank, recjson) 
-            VALUES(%s, %s, %s, %s, %s, %s, now(), %s, %s)
+            INSERT into recinfo(hid, bid, uid, score, maxcombo, mods, playdate, lastdate, rank, recjson) 
+            VALUES(%s, %s, %s, %s, %s, %s, %s, now(), %s, %s)
             ON DUPLICATE KEY UPDATE 
             score=%s, maxcombo=%s, playdate=%s, lastdate=now(), rank=%s, recjson=%s
         '''
@@ -58,6 +58,38 @@ def rank2db(args):
     except:
         conn.rollback()
         traceback.print_exc()
+
+def alias2db(cname, bid='', uid=''):
+    try:
+        conn = interMysql.Connect()
+        sql = '''
+            INSERT into alias(bid, uid, cname) 
+            VALUES(%s, %s, %s)
+        '''
+        ret = conn.execute(sql, [bid, uid, cname])
+        conn.commit()
+        logging.info('alias入库记录 %s' % ret)
+        return ret
+    except:
+        conn.rollback()
+        traceback.print_exc()
+        return -1
+
+def delalias(cname):
+    try:
+        conn = interMysql.Connect()
+        sql = '''
+            DELETE from alias where cname = %s
+        '''
+        ret = conn.execute(sql, cname)
+        conn.commit()
+        logging.info('alias删除记录 %s' % ret)
+        return ret
+    except:
+        conn.rollback()
+        traceback.print_exc()
+        return -1
+
 
 def check_rec(bids, rec):
     # 提取新记录成绩
@@ -275,7 +307,7 @@ def args_format(agrstype, res, **kwargs):
     elif agrstype == 'rec':
         for r in res:
             recjson = json.dumps(r)
-            args.append([r['beatmap_id'], r['user_id'], r['score'], r['maxcombo'], r['enabled_mods'], r['date'], r['rank'],\
+            args.append([kwargs.get('hid', 1), r['beatmap_id'], r['user_id'], r['score'], r['maxcombo'], r['enabled_mods'], r['date'], r['rank'],\
                 recjson, r['score'], r['maxcombo'], r['date'], r['rank'], recjson])
     elif agrstype == 'rank':
         # 入参的topusers与json以列表传入
@@ -289,7 +321,7 @@ def hid_ranks(bid, groupid, hid=1, mods=-1):
     # 指定式查询 -- 未扩展
     conn = interMysql.Connect()
     sql = '''
-        SELECT a.bid, a.mods, a.rankjson, b.title, b.artist, b.version, b.source
+        SELECT a.bid, a.mods, a.rankjson, b.title, b.artist, b.version, b.source, b.mapjson
         from maprank a INNER JOIN beatmap b ON a.bid=b.bid 
         where a.gid = %s and a.hid = %s and a.bid = %s and a.mods = %s
     '''
@@ -304,3 +336,27 @@ def hid_mytops(uid, groupid, hid=1, mods=-1):
     '''
     ret = conn.query(sql, [groupid, hid, mods, uid])
     return ret
+
+def tops_rank(groupid, hid=1):
+    # top榜排行
+    conn = interMysql.Connect()
+    sql = '''
+        SELECT uid,count(uid) num FROM maprank 
+        WHERE gid = %s and hid = %s
+        GROUP BY uid ORDER BY num desc LIMIT 10
+    '''
+    ret = conn.query(sql, [groupid, hid])
+    return ret
+
+def get_alias(cname, rtype=1):
+    conn = interMysql.Connect()
+    sql = '''
+        SELECT * from alias where cname = %s
+    '''
+    ret = conn.query(sql, cname)
+    if not ret:
+        return -1
+    if rtype == 1:
+        return ret[0]['bid']
+    elif rtype == 2:
+        return ret[0]['uid']

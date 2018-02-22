@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import sys
+import os
 import random
 import traceback
 from api import help_api
@@ -8,12 +10,14 @@ from api import cbot_api
 from api import rank_api
 from api import req_api
 from api import sp_api
+from api import stats
 from api import chattrain_api
 from api import rank_tab
 from libs import args_func
 from libs import chatlog
 from api import msg_permission
 from comm import Config
+from draws import drawRank
 
 def invoke(b):
 
@@ -132,20 +136,47 @@ def invoke(b):
     elif '!hd' == b.message:
         return '第四轮测试图 %s (!upd或!rctpp上传)' % (Config.MAP_URL_PREF + str(Config.MAPID))
 
-    elif '!hdrank' == b.message:
+    elif '!hdrank2' == b.message:
         uid = args_func.uid_find_or_input(qq=b.qq, return_type=1)
         if not uid:
             uid = -1
         return rank_tab.get_rankinfo(uid, b.group_id, Config.MAPID, hid=1, mod=-1)
 
-    elif '!rank' == b.message[0:5]:
+    elif '!rank2' == b.message[0:6]:
         uid = args_func.uid_find_or_input(qq=b.qq, return_type=1)
         if not uid:
             uid = None
-        msgs = b.message.split('&#44;')
+        msgs = b.message.split(' ')
         if len(msgs) > 1:
             bid = str(msgs[1])
         return rank_tab.get_rankinfo(uid, b.group_id, bid, hid=1, mod=-1)
+
+    elif '!hdrank' == b.message:
+        uid = args_func.uid_find_or_input(qq=b.qq, return_type=0)
+        if not uid:
+            uid = -1
+        drawRank.start(Config.MAPID, b.group_id, hid=1, mods=-1, uid=uid)
+        return '[CQ:image,file=file://%s\%s]' % (Config.IMAGE_PATH, 'rank.png')
+
+    elif '!rank' == b.message[0:5] and b.message != '!rankme':
+        uid = args_func.uid_find_or_input(qq=b.qq, return_type=0)
+        if not uid:
+            uid = -1
+        msgs = b.message.split(' ')
+        bid = args_func.alias2bid(msgs)
+        try:
+            drawRank.start(bid, b.group_id, hid=1, mods=-1, uid=uid)
+        except:
+            traceback.print_exc()
+            return '打了就是你的top\nosu.ppy.sh/b/%s'%bid
+        return '[CQ:image,file=file://%s\%s]' % (Config.IMAGE_PATH, 'rank.png')
+
+    elif '!setb' == b.message[0:5]:
+        return rank_tab.set_alias(b.message)
+
+    elif '!del' == b.message[0:4]:
+        msgs = b.message.split(' ')
+        return rank_tab.del_alias(msgs[1])
 
     elif '!top' in b.message:
         uid,uname = args_func.uid_uname(uname=b.message[5:], qq=b.qq)
@@ -154,6 +185,9 @@ def invoke(b):
         ret = rank_tab.get_topsnum(uid, b.group_id, hid=1, mod=-1)
         return ret.replace('{uid}', uname)
 
+    elif '!ts' == b.message:
+        return rank_tab.get_topsrank(b.group_id)
+
     elif '!new' == b.message:
         return help_api.rank_help()
 
@@ -161,6 +195,34 @@ def invoke(b):
         uid = args_func.uid_find_or_input(qq=b.qq, return_type=1)
         rank_tab.upload_rec(uid, b.group_id, limit=10)
         return 'not define'
+
+    elif '!s' == b.message:
+        return stats.get_stats(b.qq)
+
+    elif '!days' in b.message:
+        try:
+            days = b.message.split(' ')
+            if len(days) > 1:
+                days = int(days[1])
+            else:
+                days = 0
+            msg = stats.get_stats(b.qq, days)
+        except:
+            msg = '请好好输参数...(!days 2)'
+        return msg
+
+    elif b.message == '!status':
+        return stats.update_status()
+        
+    elif b.message == '!restart' and b.qq == Config.SUPER_QQ:
+        python = sys.executable
+        os.execl(python, python, * sys.argv)
+
+    elif b.message == 'interbot':
+        return '[CQ:image,file=file://%s\%s]' % (Config.IMAGE_PATH, 'bq\\wutou.jpg')
+
+    elif b.message == 'interbot2':
+        return '[CQ:image,file=file://%s\%s]' % (Config.IMAGE_PATH, 'bq\\buwutou.jpg')
 
     else:
         msg = cbot_api.autoreply(b.globValue)

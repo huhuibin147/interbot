@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import random
+import datetime
 import traceback
 from comm import interRequest
 from comm import interMysql
@@ -47,6 +48,24 @@ class Osuer():
         if not ret:
             return None
         return ret[0]
+
+    def get_user_from_db3(self, oids):
+        conn = interMysql.Connect()
+        sql = 'SELECT * FROM user where osuid in (%s)'
+        sql = sql % (','.join(map(lambda x:'%s', oids)))
+        ret = conn.query(sql, oids)
+        if not ret:
+            return None
+        return ret
+
+    def get_user_stats_today(self, uid):
+        conn = interMysql.Connect()
+        sql = 'SELECT * FROM user2 where osuid = %s order by time desc limit 1'
+        ret = conn.query(sql, uid)
+        if not ret:
+            return None
+        return ret
+
 
     def get_usernames_by_uid(self, uids):
         conn = interMysql.Connect()

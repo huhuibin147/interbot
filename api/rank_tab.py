@@ -105,7 +105,7 @@ def get_rankinfo(uid, groupid, bid, hid=1, mod=-1):
     ret = ret[0]
     outstr = '%s(%s)-%s[%s]\n' % (ret['source'], ret['artist'], ret['title'], ret['version'])
     uids = []
-    for i,r in enumerate(json.loads(ret['rankjson'])[:5]):
+    for i,r in enumerate(json.loads(ret['rankjson'])[:10]):
         for k,v in r.items():
             uid = k
             uids.append(uid)
@@ -123,7 +123,34 @@ def get_topsnum(uid, groupid, hid, mod=-1):
     if not ret:
         return '太可怜了，没有一个榜top1与{uid}有缘！'
     outstr = "{uid} 's top榜(%s个)\n" % len(ret)
-    ret = ret[:10]
+    ret = ret[-1:-11:-1]
     for i,r in enumerate(ret):
         outstr = outstr + '[%s]https://osu.ppy.sh/b/%s\n' % (i+1,r['bid'])
     return outstr[:-1]
+
+def get_topsrank(groupid, hid=1):
+    ret = score.tops_rank(groupid, hid=hid)
+    if not ret:
+        return '你群0个榜???'
+    u = osu_user.Osuer()
+    uret = u.get_user_from_db3([r['uid'] for r in ret])
+    udict = {r['osuid']:r['osuname'] for r in uret}
+    outstr = "top榜拥有数排行\n"
+    for i,r in enumerate(ret):
+        outstr = outstr + '#%s %s [%s]\n' % (i+1, udict[r['uid']], r['num'])
+    return outstr[:-1]
+
+def set_alias(msg):
+    ml = msg.split(' ')
+    if len(ml) != 3:
+        return 'usage {!setb bid name} ps:别名带上难度，保证唯一性'
+    ret = score.alias2db(ml[2], bid=ml[1], uid='')
+    if ret == -1:
+        return '设置失败，可能重复别名'
+    return 'set success'
+
+def del_alias(c):
+    ret = score.delalias(c)
+    if ret == -1 or ret == 0:
+        return 'del fail'
+    return 'del success'

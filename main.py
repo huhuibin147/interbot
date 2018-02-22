@@ -4,6 +4,7 @@ import logging
 from cqhttp import CQHttp
 from api import msg
 from api import job
+from api import stats
 from api import initGlobValue
 from comm import interRedis
 from comm import Config
@@ -47,6 +48,8 @@ logging.info('初始化完成!')
 sched_t = threading.Thread(target=job.jobCenter, args=(bot, globValue, gV_Lock))
 sched_t.setDaemon(True)
 sched_t.start()
+
+stats.stats_sched()
 
 logging.info('interbot各种加载完成!!')
 

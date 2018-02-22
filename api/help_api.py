@@ -15,7 +15,8 @@ def new_help():
 11.cr,kr(指令/话痨榜
 12.todaybp(从小int偷的
 13.rctpp(从小int偷的
-14.!new 榜单新功能介绍'''
+14.s,days
+15.!new 榜单新功能介绍'''
     return msg
 
 def rank_help():
@@ -24,10 +25,12 @@ info：
     榜单以群为单位，每个曲子一个榜单，榜单分总榜与mod榜，每个榜单50个名额
 cmd:
     1.upd或者rctpp会上传最近10个成绩(包括fail，要能传上ppy的)
-    2.rank,bid(例如：rank,1028215) 查询指定曲子榜单,默认总榜
+    2.rank bid(例如：rank 1028215) 查询指定曲子榜单,默认总榜
     3.top 查询个人top1榜数量以及图链接列表
     4.hd 活动指定图 目前一张
-    5.hdrank 为活动开设的指定图榜(未扩展)'''
+    5.hdrank 为活动开设的指定图榜(未扩展)
+    6.setb bid 别名(用于方便rank查询,一个曲子可多个别名,注意难度区分,防止覆盖)
+    7.del 别名(别名带有唯一性，设置错误删除)'''
     return msg
 
 def old_help():

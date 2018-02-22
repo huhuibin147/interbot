@@ -26,6 +26,8 @@ AUTOSPEAK_PCT = 90
 CHAT_TRAIN_KEY = 'WORDS_TRAIN'
 # chat训练缓存时间
 WORDS_TRAIN_SEC = 3400
+# 表情路径
+IMAGE_PATH = 'E:\\interbot\\interbot\\image'
 
 # 活动指定图
 HID = 1

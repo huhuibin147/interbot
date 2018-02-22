@@ -44,7 +44,7 @@ class interReq():
         if not url:
             return 0
         ir = requests.get(url=url)
-        path = path+iname+'.jpg' if path else 'static/image/osuimg/%s.png' % iname
+        path = path+iname+'.jpg' if path else 'image/%s.png' % iname
         if ir.status_code == 200:
             with open(path, 'wb') as f:
                 f.write(ir.content)
