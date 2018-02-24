@@ -95,7 +95,7 @@ def drawR(mapjson, rankjson, userjson):
 
     # 用户信息
     uname = userjson.get('username', '')
-    pp = userjson.get('pp', '')
+    pp = round(float(userjson.get('pp', 0)),2)
     acc = userjson.get('acc', '')
     level = userjson.get('level', '99')
     rank = userjson.get('rank', '')
@@ -248,6 +248,6 @@ def drawR(mapjson, rankjson, userjson):
 
 
 def start(bid='847314', groupid='614892339', hid=1, mods=-1, uid='8505303'):
-    mapjson,rankjson = draw_data.map_ranks_info(bid, groupid, hid, mods)
+    mapjson,rankjson = draw_data.map_ranks_info(str(bid), groupid, hid, mods)
     userjson = draw_data.get_user_stats(uid)
     drawR(mapjson,rankjson,userjson)

@@ -56,7 +56,7 @@ class Ctrain():
                 logging.info('跳过训练！')
                 self.load_seg_model()
                 return 1
-            rds.setex(key, 6, Config.WORDS_TRAIN_SEC)
+            rds.setex(key, 1, Config.WORDS_TRAIN_SEC)
         except:
             traceback.print_exc()
         return 0

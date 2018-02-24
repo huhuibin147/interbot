@@ -25,7 +25,7 @@ AUTOSPEAK_PCT = 90
 # chat训练rds key
 CHAT_TRAIN_KEY = 'WORDS_TRAIN'
 # chat训练缓存时间
-WORDS_TRAIN_SEC = 3400
+WORDS_TRAIN_SEC = 3600 * 6 - 1
 # 表情路径
 IMAGE_PATH = 'E:\\interbot\\interbot\\image'
 
@@ -34,4 +34,5 @@ HID = 1
 MAPID = 1028215
 MAP_URL_PREF = 'https://osu.ppy.sh/b/'
 
-
+# 群ID
+GROUP_IRC = {'1':614892339,'2':514661057,'3':641236878}

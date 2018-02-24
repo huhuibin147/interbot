@@ -178,6 +178,9 @@ def invoke(b):
         msgs = b.message.split(' ')
         return rank_tab.del_alias(msgs[1])
 
+    elif '!bind' == b.message[0:5]:
+        return rank_tab.bind_irc(b.message, b.qq)
+
     elif '!top' in b.message:
         uid,uname = args_func.uid_uname(uname=b.message[5:], qq=b.qq)
         if not uname:

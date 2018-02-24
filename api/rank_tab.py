@@ -6,6 +6,7 @@ import copy
 from libs import osu_user
 from comm import interRedis
 from comm import Config
+from libs import args_func
 from libs import score
 from libs import mods
 
@@ -154,3 +155,21 @@ def del_alias(c):
     if ret == -1 or ret == 0:
         return 'del fail'
     return 'del success'
+
+def bind_irc(msg, qq):
+    uid = args_func.uid_find_or_input(qq=qq, return_type=1)
+    if not uid:
+        return 'QQ请绑定ID,再进行irc绑定!'
+    ml = msg.split(' ')
+    if len(ml) != 2:
+        return 'usage {!bind 1/2/3} (1:新人群,2:分群,3:开发群)请绑定唯一群'
+    else:
+        gid = Config.GROUP_IRC.get(ml[1], -1)
+
+    if gid == -1:
+        return 'usage {!bind 1/2/3} (1:新人群,2:分群,3:开发群)请绑定唯一群'
+
+    ret = score.bind_group_irc(uid, gid, qq)
+    if ret == -1:
+        return 'irc绑定异常'
+    return 'bind success'

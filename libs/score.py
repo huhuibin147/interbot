@@ -90,6 +90,24 @@ def delalias(cname):
         traceback.print_exc()
         return -1
 
+def bind_group_irc(osuname, groupid, qq):
+    try:
+        conn = interMysql.Connect()
+        sql = '''
+            INSERT into ircbind(osuname, groupid, qq) 
+            VALUES(%s, %s, %s)
+            ON DUPLICATE KEY UPDATE 
+            groupid=%s, qq=%s
+        '''
+        ret = conn.execute(sql, [osuname, groupid, qq, groupid, qq])
+        conn.commit()
+        logging.info('ircbind入库记录 %s' % ret)
+        return ret
+    except:
+        conn.rollback()
+        traceback.print_exc()
+        return -1
+
 
 def check_rec(bids, rec):
     # 提取新记录成绩
@@ -342,10 +360,10 @@ def tops_rank(groupid, hid=1):
     conn = interMysql.Connect()
     sql = '''
         SELECT uid,count(uid) num FROM maprank 
-        WHERE gid = %s and hid = %s
+        WHERE gid = %s and hid = %s and mods = %s
         GROUP BY uid ORDER BY num desc LIMIT 10
     '''
-    ret = conn.query(sql, [groupid, hid])
+    ret = conn.query(sql, [groupid, hid, -1])
     return ret
 
 def get_alias(cname, rtype=1):
@@ -360,3 +378,13 @@ def get_alias(cname, rtype=1):
         return ret[0]['bid']
     elif rtype == 2:
         return ret[0]['uid']
+
+def get_ircbind(osuname):
+    conn = interMysql.Connect()
+    sql = '''
+        SELECT * from ircbind where osuname = %s
+    '''
+    ret = conn.query(sql, osuname)
+    if not ret:
+        return -1
+    return ret[0]['groupid']

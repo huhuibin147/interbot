@@ -13,9 +13,11 @@ img_path = 'image/userimg/'
 
 def map_ranks_info(bid='1028215', groupid='641236878', hid=1, mods=-1):
     # map信息，榜单信息
-    ret = score.hid_ranks(bid, groupid, hid, mods)[0]
-    maps = json.loads(ret['mapjson'])
-    rankjson = json.loads(ret['rankjson'])
+    ret = score.hid_ranks(bid, groupid, hid, mods)
+    if not ret:
+        return {},{}
+    maps = json.loads(ret[0]['mapjson'])
+    rankjson = json.loads(ret[0]['rankjson'])
     return maps,rankjson
 
 def get_user_stats(uid='8505303'):

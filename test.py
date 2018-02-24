@@ -53,4 +53,6 @@ import traceback
 # print(rank_tab.get_topsrank('514661057'))
 
 # print(score.alias2db('竹取', bid='86324', uid=''))
-print(score.get_alias('竹取'))
+# print(score.get_alias('竹取')) 514661057 614892339
+osuname, groupid, qq = 'interbot',614892339,405622418
+print(score.bind_group_irc(osuname, groupid, qq))

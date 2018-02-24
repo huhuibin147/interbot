@@ -13,7 +13,11 @@ class Bot():
         self.bot = bot
         self.group_id = context['group_id']
         self.qq = context['user_id']
-        self.message = context['message']
+        msgs = context['message'].replace('&amp;', '&')
+        msgs = msgs.replace('&#91;', '[')
+        msgs = msgs.replace('&#93;', ']')
+        msgs = msgs.replace('&#44;', ',')
+        self.message = msgs
         self.globValue = globValue
         self.gV_Lock = gV_Lock
         # TODO 

@@ -52,7 +52,7 @@ def update_status():
         msg = '今日更新数据异常,更新条数:%s大于绑定用户数:%s' % (len_up,len_bind)
     else:
         msg = '今日更新条数:%s,未更新数量:%s' % (len_up,len_error)
-        if len_bind-len_up > 5:
+        if len_bind-len_up > 3:
             # msg += ',开始自动更新剩余用户...'
             print('自动更新列表:%s'%error_user)
             auto_flag = 1

@@ -8,6 +8,7 @@ from api import stats
 from api import initGlobValue
 from comm import interRedis
 from comm import Config
+from irc import ircbot
 
 bot = CQHttp(api_root='http://127.0.0.1:5700/')
 
@@ -50,6 +51,10 @@ sched_t.setDaemon(True)
 sched_t.start()
 
 stats.stats_sched()
+
+# ircbot
+irc = threading.Thread(target=ircbot.start, args=(bot,))
+irc.start()
 
 logging.info('interbot各种加载完成!!')
 
