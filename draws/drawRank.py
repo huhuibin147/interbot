@@ -227,6 +227,8 @@ def drawR(mapjson, rankjson, userjson):
 
     # copy
     for i in range(r2):
+        if i == 6:
+            break
         oi = i + 6
         r = rankjson[oi]
         u = uids[oi]

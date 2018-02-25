@@ -62,7 +62,7 @@ def update_status():
         error_user = list(error_user)
         o._inerts_many(error_user)
         print('***********待清理列表:%s**********'%error_user)
-        msg += '\n操作:自动插入完成!失败用户数:%s' % len(error_user)
+        msg += '\n操作:自动插入完成!'
         # 自动清理
         # if o.del_users(error_user):
         #     bot.SendTo(contact, '如下列表用户被自动清理:%s'%error_user)
