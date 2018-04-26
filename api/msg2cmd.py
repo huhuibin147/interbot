@@ -28,6 +28,9 @@ def invoke(b):
     if b.message == '!inter':
         return help_api.new_help()
 
+    elif b.message == '!roll':
+        return str(random.randint(0, 100))
+
     elif '!test' in b.message:
         uid = args_func.uid_find_or_input(b.message[6:], b.qq)
         if not uid:
@@ -134,7 +137,7 @@ def invoke(b):
         return rank_tab.upload_rec(uid, b.group_id, limit=10)
 
     elif '!hd' == b.message:
-        return '第四轮测试图 %s (!upd或!rctpp上传)' % (Config.MAP_URL_PREF + str(Config.MAPID))
+        return 'dalou选的 %s (下载请去这里http://osu.uu.gl/d/26932 )' % (Config.MAP_URL_PREF + str(Config.MAPID))
 
     elif '!hdrank2' == b.message:
         uid = args_func.uid_find_or_input(qq=b.qq, return_type=1)
@@ -226,6 +229,22 @@ def invoke(b):
 
     elif b.message == 'interbot2':
         return '[CQ:image,file=file://%s\%s]' % (Config.IMAGE_PATH, 'bq\\buwutou.jpg')
+
+    elif b.message == 'interbot3':
+        return '[CQ:image,file=file://%s\%s]' % (Config.IMAGE_PATH, 'bq\\interqb.jpg')
+
+    elif b.message == 'interbot4':
+        return '快给钱不然不卖萌!!!'
+
+    elif '!pp' in b.message:
+        uid = args_func.uid_find_or_input(b.message[4:], b.qq, return_type=1)
+        return test_api.check2(uid)
+
+    elif '!add' in b.message:
+        mls = b.message.split(' ')
+        if len(mls) != 3:
+            return 'usage:{add x1 x2}'
+        return test_api.add_api(mls[1], mls[2])
 
     else:
         msg = cbot_api.autoreply(b.globValue)

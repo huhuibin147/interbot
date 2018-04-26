@@ -6,14 +6,12 @@ import logging
 class interReq():
     def __init__(self, url=None, params=None, timeout=5):
         self.headers = {
-            'Accept' : 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'Accept-Encoding' : 'gzip, deflate, br',
-            'Accept-Language' : 'zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3',
-            'Connection' : 'keep-alive',
-            'Cookie' : '__cfduid=d0f839d6873527f32fe3b9dc8426362481508213944; XSRF-TOKEN=DMTtpVyEN1VvSFglE9tFYui1BkrkcuHMxh9bB1IH; osu_session=eyJpdiI6IktyNWxtVFJVNmwwcGdoS05FK21yYVE9PSIsInZhbHVlIjoiZ0t3Z0pzYUoxbXJcL1J6Mm10UmM0WG51c1Y0RTg3R0ZrNVRtcVJCSWV0bytwZjQ2OFwvaTI1MFI5Z2x5bkx3b0RrbWlyclV4U1wvQmtxQU5EY01VN2FcL0NnPT0iLCJtYWMiOiJlZWJhZTU0NzgzNzM4MGQxMmJlYTY0NjA2NTE0NDQyYmJkNzg1MDQyNWE3YjU0OTUyMGZmOGQwOGE5ZTM5YjQ0In0%3D; _ga=GA1.2.987670012.1508213952; __utma=226001156.987670012.1508213952.1508238423.1509076921.2; __utmz=226001156.1508238423.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); cf_clearance=ffcabb88813877be171e47f35a2c99cbb8c1146a-1509076917-31536000; __utmb=226001156.3.10.1509076921; _gid=GA1.2.38718716.1509076975',
-            'Host'  :  'osu.ppy.sh',
-            'Upgrade-Insecure-Requests' :  '1',
-            'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0'
+            'accept' : 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+            'accept-encoding' : 'gzip, deflate, br',
+            'accept-language' : 'zh-CN,zh;q=0.9',
+            'cookie' : '__cfduid=dcd84cc446800e949d5088570b4fa54c21490246214; _ga=GA1.2.2055967706.1490246215; cf_clearance=a233723e29ddfea8d91182fce773a828db7cc04e-1512707357-31536000; __utmz=226001156.1518163818.69.5.utmcsr=baidu|utmccn=(organic)|utmcmd=organic; _encid=%7B%22name%22%3A%22interbot%22%2C%22email%22%3A%22%22%2C%22_source%22%3A%22a%22%7D; phpbb3_2cjk5_u=11788070; phpbb3_2cjk5_u=11788070; phpbb3_2cjk5_k=5e74a60e99ec406f; phpbb3_2cjk5_k=5e74a60e99ec406f; phpbb3_2cjk5_sid=fbca0496b3d5366edf1e0b929c75c363; phpbb3_2cjk5_sid=fbca0496b3d5366edf1e0b929c75c363; phpbb3_2cjk5_sid_check=d3165160830ec9259e84adc94a9660fbca629157; phpbb3_2cjk5_sid_check=d3165160830ec9259e84adc94a9660fbca629157; __utma=226001156.2055967706.1490246215.1519746481.1520072282.81',
+            'upgrade-insecure-requests' :  '1',
+            'user-agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36'
         } 
         self.url = url
         self.params = params
@@ -23,7 +21,7 @@ class interReq():
     def post(self, url=None, params=None):
         url = url if url else self.url
         params = params if params else self.params
-        res = requests.post(url=url, data=params, headers=self.headers, timeout=self.timeout)
+        res = requests.post(url=url, data=params, timeout=self.timeout)#headers=self.headers
         try:
             ret = json.loads(res.text)
         except:
@@ -32,7 +30,7 @@ class interReq():
 
     def get(self, url=None):
         url = url if url else self.url
-        res = requests.get(url=url, headers=self.headers, timeout=self.timeout)
+        res = requests.get(url=url, timeout=self.timeout) #headers=self.headers,
         try:
             ret = json.loads(res.text)
         except:

@@ -21,7 +21,7 @@ LIMIT_SEQ_NUM = 1000
 # 回复概率数 0~100
 AUTOREPLY_PCT = 99
 # 自动触发speak概率数 0~100
-AUTOSPEAK_PCT = 90
+AUTOSPEAK_PCT = 95
 # chat训练rds key
 CHAT_TRAIN_KEY = 'WORDS_TRAIN'
 # chat训练缓存时间
@@ -31,7 +31,7 @@ IMAGE_PATH = 'E:\\interbot\\interbot\\image'
 
 # 活动指定图
 HID = 1
-MAPID = 1028215
+MAPID = 94944
 MAP_URL_PREF = 'https://osu.ppy.sh/b/'
 
 # 群ID
