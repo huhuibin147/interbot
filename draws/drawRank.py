@@ -25,6 +25,9 @@ class DrawRec():
 
     def get_img(self, iname, path=None, factor=0):
         fpath = '%s/%s' % (self.skin, iname) if not path else path
+        # 没头像的临时处理，通用方法都暂时指向default
+        if not os.path.exists(fpath):
+            fpath = 'image/userimg/default.jpg'
         im = Image.open(fpath)
         if im.mode != 'RGBA':
             im = im.convert('RGBA')
@@ -199,7 +202,7 @@ def drawR(mapjson, rankjson, userjson):
         d.draw_rectangle(x=20, y=160+i*offset1, width=460, height=60, fill=(0, 0, 0, 50))
         d.add_items(x=20, y=160+i*offset1, path='image/userimg/%s.jpg'%u, isresize=True, width=60, height=60)
         d.add_items(rank_x%rank, 80, 170+i*offset1)
-        d.add_text(120, 160+i*offset1, '%s'%(udict[u]), font_size=25, ttype='en')
+        d.add_text(120, 160+i*offset1, '%s'%(udict.get(u, 'None')), font_size=25, ttype='en')
         d.add_text(120, 190+i*offset1, '得分: %s'%(format(int(r[u][0]),',')), font_size=20, ttype='cn')
         d.add_text(300, 190+i*offset1, '(%sx)'%(format(int(r[u][1]),',')), font_size=20, ttype='en')
         d.add_text(450-20*len(mds_l), 165+i*offset1, '%s'%(m), font_size=20, ttype='en')

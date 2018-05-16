@@ -18,12 +18,18 @@ from libs import chatlog
 from api import msg_permission
 from comm import Config
 from draws import drawRank
+from draws import draw_data
+from api import chart_api
 
 def invoke(b):
 
     # 信息收集
     cbot_api.msg2Redis(b)
     cbot_api.msg2Mysql(b)
+    eggmsg = cbot_api.egg(b)
+    if eggmsg:
+        return eggmsg
+
 
     if b.message == '!inter':
         return help_api.new_help()
@@ -194,13 +200,15 @@ def invoke(b):
     elif '!ts' == b.message:
         return rank_tab.get_topsrank(b.group_id)
 
-    elif '!new' == b.message:
+    elif '榜单介绍' == b.message:
         return help_api.rank_help()
 
-    elif 'pick' in b.message or 'up' in b.message or 'my' in b.message:
-        uid = args_func.uid_find_or_input(qq=b.qq, return_type=1)
-        rank_tab.upload_rec(uid, b.group_id, limit=10)
-        return 'not define'
+    elif b.message == '!upimg':
+        uid = args_func.uid_find_or_input(qq=b.qq, return_type=0)
+        if not uid:
+            return '请绑定ID,再进行upimg操作!'
+        draw_data.down_images_from_ppy([uid])
+        return '刷新成功(可能吧?'
 
     elif '!s' == b.message:
         return stats.get_stats(b.qq)
@@ -245,6 +253,21 @@ def invoke(b):
         if len(mls) != 3:
             return 'usage:{add x1 x2}'
         return test_api.add_api(mls[1], mls[2])
+
+    elif '!chartadd' in b.message:
+        args = b.message.split(' ')[1:]
+        return chart_api.add(*args)
+
+    elif '!expectadd' in b.message:
+        args = b.message.split(' ')[1:]
+        return chart_api.addexpect(*args)
+
+
+    elif 'pick' in b.message or 'up' in b.message \
+        or 'my' in b.message or 'submit' in b.message:
+        uid = args_func.uid_find_or_input(qq=b.qq, return_type=1)
+        rank_tab.upload_rec(uid, b.group_id, limit=10)
+        return 'not define'
 
     else:
         msg = cbot_api.autoreply(b.globValue)

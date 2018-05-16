@@ -46,3 +46,17 @@ def msg2Mysql(b):
         return
     chatlog.Chat2DB(b.group_id, b.qq, f_msg)
     return
+
+def egg(b):
+    if b.message == '彩蛋':
+        return '你想探索点什么?'
+    elif b.message == 'interbot0':
+        return '这不是彩蛋，你好像发现了什么?'
+    elif b.message == '傻dalou':
+        return '解锁1号彩蛋，调戏dalou!'
+
+    if b.qq == 1004121460:
+        if b.message == 'int妹妹':
+            return '解锁专属彩蛋,int妹妹qwq'
+
+    return 0

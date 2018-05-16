@@ -15,7 +15,7 @@ def jobCenter(bot, globValue, gV_Lock):
         # 任务列表
         
         # msg信息更新
-        sched.add_job(job_msg.msg_recollect, 'interval', minutes=1, args=[globValue, gV_Lock])
+        sched.add_job(job_msg.msg_recollect, 'interval', minutes=30, args=[globValue, gV_Lock])
         # speak任务
         sched.add_job(job_msg.speak_task, 'interval', seconds=15, args=[bot, globValue])
         # 训练任务

@@ -52,10 +52,12 @@ def check_img(uids, isup=0):
 
 
 def down_images_from_ppy(uids):
-    imgs_url = get_images_ppy_url(uids)
+    print('image down:%s' % str(uids))
+    imgs_url = get_images_ppy_url2(uids)
     r = interRequest.interReq()
     for idx,imgs_url in enumerate(imgs_url):
         res = r.down_image(uids[idx], url=imgs_url, path=img_path)
+        print('图片下载情况 %s' % res)
 
 def get_images_ppy_url(uids):
     raw_url = "http://www.int100.org/api/get_avatars.php?u={u}"
@@ -66,4 +68,13 @@ def get_images_ppy_url(uids):
     res = r.get(url)
     res = res[:-1]
     return res.split(',')
+
+
+def get_images_ppy_url2(uids):
+    raw_url = "https://a.ppy.sh/{u}"
+    urls = []
+    for u in uids:
+        urls.append(raw_url.format(u=u))
+    return urls
+
 

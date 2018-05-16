@@ -16,7 +16,8 @@ def new_help():
 12.todaybp(从小int偷的
 13.rctpp(从小int偷的
 14.s,days
-15.!new 榜单新功能介绍'''
+15.榜单介绍 榜单新功能介绍
+16.upimg 刷新头像功能(绘图用'''
     return msg
 
 def rank_help():

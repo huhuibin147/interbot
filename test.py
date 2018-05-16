@@ -5,16 +5,16 @@
 # from api import skill_api
 # from api import rank_api
 # from api import test_api
-from api import rank_tab
-from libs import score
+# from api import rank_tab
+# from libs import score
 # from draws import draw_data
 # from draws import drawRank
 # from api import chattrain_api
 # from cbot import get_chatlog
 # from cbot import segment
-import json
-import threading
-import traceback
+# import json
+# import threading
+# import traceback
 
 # o=osu_user.Osuer()
 # ret = o.get_user_from_db(405622418)
@@ -54,5 +54,13 @@ import traceback
 
 # print(score.alias2db('竹取', bid='86324', uid=''))
 # print(score.get_alias('竹取')) 514661057 614892339
-osuname, groupid, qq = 'interbot',614892339,405622418
-print(score.bind_group_irc(osuname, groupid, qq))
+# osuname, groupid, qq = 'interbot',614892339,405622418
+# print(score.bind_group_irc(osuname, groupid, qq))
+
+
+# from cbot import get_chatlog
+# get_chatlog.chat2txt(get_chatlog.chatlog())
+# print('已完成!')
+
+from api import chart_api
+chart_api.addexpect(1, 614, 2, 123, '2018-5-4', '2018-5-6')
