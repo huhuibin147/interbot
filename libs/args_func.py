@@ -2,13 +2,13 @@
 from libs import osu_user
 from libs import score
 
-def uid_find_or_input(uid=None, qq=None, can_input=True, return_type=0):
+def uid_find_or_input(uid=None, qq=None, can_input=True, return_type=0, gid=None):
     # 是否允许读入uid
     if can_input and uid:
         return uid
 
     u = osu_user.Osuer()
-    ret = u.get_user_from_db(qq)
+    ret = u.get_user_from_db(qq, gid)
     if not ret:
         return 0
 
@@ -33,7 +33,7 @@ def uid_uname(uname=None, qq=None):
 
 def alias2args(cname, rtype=1):
     return score.get_alias(cname, rtype)
-
+ 
 def alias2bid(args):
     aob = args[1] if len(args) > 1 else Config.MAPID
     try:

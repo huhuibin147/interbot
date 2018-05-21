@@ -32,10 +32,14 @@ class Osuer():
         self.userbp = ret
         return self.userbp
 
-    def get_user_from_db(self, qq):
+    def get_user_from_db(self, qq, gid=None):
         conn = interMysql.Connect()
         sql = 'SELECT * FROM user where qq = %s'
-        ret = conn.query(sql, qq)
+        args = [qq]
+        if gid:
+            sql += ' and groupid=%s'
+            args.append(str(gid))
+        ret = conn.query(sql, args)
         if not ret:
             return None
         self.userdbinfo = ret[0]

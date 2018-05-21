@@ -3,9 +3,9 @@ import traceback
 from libs import osu_user
 from libs import mods
 
-def myinfo(qq):
+def myinfo(qq, gid=None):
     u = osu_user.Osuer()
-    ret = u.get_user_from_db(qq)
+    ret = u.get_user_from_db(qq, gid)
     if not ret:
         return '未绑定,请使用setid!'
 

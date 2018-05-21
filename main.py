@@ -35,6 +35,11 @@ logging.basicConfig(
     datefmt='%Y-%d-%m %H:%M:%S'
 )
 logging.info('interbot各种加载初始化中...')
+
+if Config.DEBUG == 1:
+    logging.info('DEBUG模式启动')
+else:
+    logging.info('正常模式启动')
 # 初始化群列表信息
 # r = interRedis.interRedis()
 # r.init_group_name(bot)

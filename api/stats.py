@@ -24,9 +24,9 @@ def sched_day_insert():
         print('定时任务出错')
         traceback.print_exc()
 
-def get_stats(qq, days=0):
+def get_stats(qq, days=0, gid=None):
     o = osu()
-    res = o.get_myinfo(qq)
+    res = o.get_myinfo(qq, gid)
     if not res:
         return '未绑定,请使用setid!'
     return o.osu_stats(res[5], days)
@@ -100,14 +100,18 @@ class osu:
     def get_cursor(self):
         return self.con.cursor()
 
-    def get_myinfo(self, qq):
+    def get_myinfo(self, qq, gid=None):
         '''qq绑定信息'''
         try:
             cur = self.get_cursor()
             sql = '''
                 SELECT * FROM user where qq = %s
             '''
-            cur.execute(sql, qq)
+            args = [qq]
+            if gid:
+                sql += ' and groupid = %s'
+                args.append(gid)
+            cur.execute(sql, args)
             res = cur.fetchall()
             if not res:
                 return 0
