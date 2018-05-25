@@ -38,3 +38,6 @@ MAP_URL_PREF = 'https://osu.ppy.sh/b/'
 
 # 群ID
 GROUP_IRC = {'1':614892339,'2':514661057,'3':641236878,'4':758120648}
+
+# daloubot
+DALOUBOT_QQ = 3082577334

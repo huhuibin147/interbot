@@ -13,19 +13,24 @@ from api import sp_api
 from api import stats
 from api import chattrain_api
 from api import rank_tab
+from api import chart_api
+from api import play_api
 from libs import args_func
 from libs import chatlog
 from api import msg_permission
 from comm import Config
 from draws import drawRank
 from draws import draw_data
-from api import chart_api
 
 def invoke(b):
 
     # 信息收集
     cbot_api.msg2Redis(b)
     cbot_api.msg2Mysql(b)
+
+    # test
+    play_api.recieve(b)
+
     eggmsg = cbot_api.egg(b)
     if eggmsg:
         return eggmsg
@@ -80,7 +85,7 @@ def invoke(b):
     elif '!help' == b.message:
         return 'inter已经去世，没有留下任何文档!!!'
 
-    elif '[CQ:at,qq=%s]'%Config.LOGGING_QQ in b.message:
+    elif '[CQ:at,qq=%s]'%Config.LOGGING_QQ in b.message and b.qq != Config.DALOUBOT_QQ:
         return cbot_api.speak(b.globValue)
 
     elif '!!' == b.message:
@@ -297,7 +302,9 @@ def invoke(b):
 
     else:
         msg = cbot_api.autoreply(b.globValue)
+        if b.group_id not in Config.SPEAK_GROUP_LIST:
+            return 'not define'
         chatlog.Chat2Redis(b.group_id, Config.LOGGING_QQ, msg)
         return msg if msg else 'not define'
 
-    return
+    return 'not define'
