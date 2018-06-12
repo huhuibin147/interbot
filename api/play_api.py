@@ -101,8 +101,8 @@ def recieve(b):
                         winlosscache(iswin=1)
 
                     send(b, '本次得分:%s' % b.globValue.get('reward'))
-                    agent.save()
-                    send(b, '模型已保存！')
+                    # agent.save()
+                    # send(b, '模型已保存！')
                     
                     if b.globValue['autoandtimes']:
                         init(b, reward=0, autoandtimes=b.globValue['autoandtimes'], playstartflag=1, statelist=[], step=[])
@@ -121,7 +121,7 @@ def recieve(b):
                     # if len(b.globValue['statelist']) > 50:
                     if checkLoop(b.globValue['statelist']) or len(b.globValue['statelist']) > 150:
                         send(b, '!stop_g')
-                        send(b, '检测到死循环!')
+                        send(b, '检测到死循环!')  
                         send(b, '本次得分:%s' % b.globValue.get('reward'))
                         if b.globValue['autoandtimes']:
                             init(b, reward=0, autoandtimes=b.globValue['autoandtimes'], playstartflag=1, statelist=[], step=[])

@@ -37,7 +37,7 @@ class DQN():
         self.session=tf.InteractiveSession()
         self.session.run(tf.global_variables_initializer())
         self.saver = tf.train.Saver()
-        checkpoint = tf.train.get_checkpoint_state("model")
+        checkpoint = tf.train.get_checkpoint_state("cbot/model")
         if checkpoint and checkpoint.model_checkpoint_path:
             self.saver.restore(self.session, checkpoint.model_checkpoint_path)
             print('模型载入成功')
@@ -121,7 +121,7 @@ class DQN():
         return np.argmax(Q_value)
     
     def save(self):
-        self.saver.save(self.session, 'model/net_dqn')
+        self.saver.save(self.session, 'cbot/model/net_dqn')
 
 
 def main():
