@@ -9,6 +9,10 @@ from api import initGlobValue
 from comm import interRedis
 from comm import Config
 from irc import ircbot
+from tornado.wsgi import WSGIContainer
+from tornado.httpserver import HTTPServer
+from tornado.ioloop import IOLoop
+
 
 bot = CQHttp(api_root='http://127.0.0.1:5700/')
 
@@ -64,7 +68,10 @@ irc.start()
 logging.info('interbot各种加载完成!!')
 
 # 监听启动
-bot.run(host='127.0.0.1', port=8889)
+# bot.run(host='127.0.0.1', port=8889)
 
-
+# 使用WSGI
+http_server = HTTPServer(WSGIContainer(bot.wsgi))
+http_server.listen(8889)
+IOLoop.instance().start()
 

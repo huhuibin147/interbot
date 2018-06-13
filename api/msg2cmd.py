@@ -29,7 +29,7 @@ def invoke(b):
     cbot_api.msg2Mysql(b)
 
     # test
-    play_api.recieve(b)
+    # play_api.recieve(b)
 
     eggmsg = cbot_api.egg(b)
     if eggmsg:
