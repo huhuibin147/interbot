@@ -42,6 +42,7 @@ def convert(msg):
 
 def msgHandler(context):
     res = requests.post(centerURL, data={"context": json.dumps(context)})
+    # logging.info(res.text)
 
 # 使用WSGI
 http_server = HTTPServer(WSGIContainer(bot.wsgi))
