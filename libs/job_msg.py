@@ -14,7 +14,7 @@ def msg_recollect(globValue, gV_Lock):
             SELECT content FROM chat_logs
         '''
         if Config.DEBUG == 1:
-            sql += ' limit %s,10000' % random.randint(0, 700000)
+            sql += ' limit %s,10000' % random.randint(0, 1011527)
         res = conn.query(sql)
         if not res:
             return

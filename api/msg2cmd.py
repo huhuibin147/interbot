@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
+import time
 import random
 import traceback
+import threading
 from api import help_api
 from api import test_api
 from api import user_api
@@ -283,22 +285,10 @@ def invoke(b):
         rank_tab.upload_rec(uid, b.group_id, limit=10)
         return 'not define'
 
-    elif '-start' in b.message:
-        return '请注册角色,usage{-regme}'
-
-    elif '-regme' in b.message:
-        return '幸运3选1,usage{-pick 1/2/3}'
-
-    elif '-pick' in b.message:
-        num = b.message[6:]
-        if num not in ('1', '2', '3'):
-            return 'usage{-pick 1/2/3}'
-        startpick = {
-            '1': '小号一只\n[属性] ???',
-            '2': '咩羊一只\n[属性] ???',
-            '3': 'dalou一只\n[属性] ???'
-        }
-        return startpick[num]
+    elif '!copy' == b.message and b.qq == Config.SUPER_QQ:
+        t = threading.Thread(target=delaySend, args=(b, 'interbot?', 3))
+        t.start()
+        print(os.system('E:\\interbot\\interbot\\2st.bat'))
 
     else:
         msg = cbot_api.autoreply(b.globValue)
@@ -308,3 +298,7 @@ def invoke(b):
         return msg if msg else 'not define'
 
     return 'not define'
+
+def delaySend(b, msg, dtime):
+    time.sleep(dtime)
+    b.bot.send(b.context, msg)
