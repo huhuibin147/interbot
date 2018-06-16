@@ -22,15 +22,9 @@ logging.basicConfig(
 
 @bot.on_message()
 def handle_msg(context):
-    context['message'] = context['message'].replace('？','?')
     context['message'] = convert(context['message'])
-    if context['message'] == 'interbot?':
-        bot.send(context, '找我有事嘛?')
-    elif context['message'] == 'interbot??':
-        bot.send(context, 'guna,没事别找我!')
-    else:
-        t = threading.Thread(target=msgHandler, args=(context, ))
-        t.start()
+    t = threading.Thread(target=msgHandler, args=(bot, context, ))
+    t.start()
 
 
 def convert(msg):
@@ -40,9 +34,11 @@ def convert(msg):
     tmps = tmps.replace('&#44;', ',')
     return tmps
 
-def msgHandler(context):
+def msgHandler(bot, context):
     res = requests.post(centerURL, data={"context": json.dumps(context)})
-    # logging.info(res.text)
+    if res.status_code == 200 and res.text:
+        logging.info(res.text)
+        bot.send(context, res.text)
 
 # 使用WSGI
 http_server = HTTPServer(WSGIContainer(bot.wsgi))
