@@ -36,7 +36,7 @@ def handle_msg(context):
 logging.basicConfig(
     level=logging.INFO,
     format='[%(asctime)s][%(levelname)s]%(message)s',
-    datefmt='%Y-%d-%m %H:%M:%S'
+    datefmt='%Y-%m-%d %H:%M:%S'
 )
 logging.info('interbot各种加载初始化中...')
 

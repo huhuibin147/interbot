@@ -17,7 +17,7 @@ centerURL = 'http://118.24.91.98/center/msg'
 logging.basicConfig(
     level=logging.INFO,
     format='[%(asctime)s][%(levelname)s]%(message)s',
-    datefmt='%Y-%d-%m %H:%M:%S'
+    datefmt='%Y-%m-%d %H:%M:%S'
 )
 
 @bot.on_message()
