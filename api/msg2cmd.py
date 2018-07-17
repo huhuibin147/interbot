@@ -44,7 +44,7 @@ def invoke(b):
     elif b.message == '!roll':
         return str(random.randint(0, 100))
 
-    elif b.message in '!mu':
+    elif b.message == '!mu':
         uid = args_func.uid_find_or_input(b.message[4:], b.qq, gid=b.group_id)
         return 'https://osu.ppy.sh/u/%s' % uid
 
@@ -102,11 +102,11 @@ def invoke(b):
         msg = user_api.setid(uid, b.qq, b.group_id)
         return '[CQ:at,qq=%s] %s' % (b.qq, msg)
         
-    elif '!kw' in b.message:
-        try:
-            return chattrain_api.kw(b.message[4:], b.globValue)
-        except:
-            return '%s不在interbot的词汇表中' % b.message[4:]
+    # elif '!kw' in b.message:
+    #     try:
+    #         return chattrain_api.kw(b.message[4:], b.globValue)
+    #     except:
+    #         return '%s不在interbot的词汇表中' % b.message[4:]
 
     elif '!trainwords' == b.message and b.qq == Config.SUPER_QQ:
         try:
@@ -145,7 +145,7 @@ def invoke(b):
         uid = args_func.uid_find_or_input(b.message[9:], b.qq, return_type=1, gid=b.group_id)
         return test_api.todaybp(uid)
 
-    elif '!rctpp' in b.message and b.group_id not in msg_permission.PermissionGroup:
+    elif '!2rctpp' in b.message and b.group_id not in msg_permission.PermissionGroup:
         uid = args_func.uid_find_or_input(b.message[7:], b.qq, return_type=1, gid=b.group_id)
         try:
             rank_tab.upload_rec(uid, b.group_id, limit=10)
@@ -242,7 +242,7 @@ def invoke(b):
             msg = '请好好输参数...(!days 2)'
         return msg
 
-    elif b.message == '!status':
+    elif b.message == '!status' and b.qq == Config.SUPER_QQ:
         return stats.update_status()
         
     elif b.message == '!restart' and b.qq == Config.SUPER_QQ:
