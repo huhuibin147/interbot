@@ -115,7 +115,7 @@ def check2(uid):
         bpacc += float(mods.get_acc(r['count300'], r['count100'], r['count50'], r['countmiss']))
     newpp, acc_c, bpacc_c, bppp_c, pc_c, tth_c = pp2(acc, bpacc, bppp, pc, tth)
     print(acc, bpacc, bppp, pc, tth)
-    return "%s\n实际pp:%spp\ninter瞎算:%spp\n分数结构:\nacc:%s\nbpacc:%s\nbp:%s\npc:%s\ntth:%s" % (uid, round(float(userinfo['pp_raw']),2), newpp, acc_c, bpacc_c, bppp_c, pc_c, tth_c)
+    return "%s\n实际pp:%spp\n预测水平:%spp" % (uid, round(float(userinfo['pp_raw']),2), newpp)
 
 def pp2(acc, bpacc, bppp, pc, tth):
     w = [0.22483119, -0.1217108, 0.82082623, 0.0294727, 0.06772371]

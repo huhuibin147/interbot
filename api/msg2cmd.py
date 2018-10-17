@@ -2,6 +2,8 @@
 import sys
 import os
 import time
+import json
+import requests
 import random
 import traceback
 import threading
@@ -22,6 +24,7 @@ from libs import chatlog
 from api import msg_permission
 from comm import Config
 from draws import drawRank
+from draws import drawRLine
 from draws import draw_data
 
 def invoke(b):
@@ -33,6 +36,9 @@ def invoke(b):
     # test
     # play_api.recieve(b)
 
+    if b.qq == Config.BOT2:
+        return 'not define'
+
     eggmsg = cbot_api.egg(b)
     if eggmsg:
         return eggmsg
@@ -41,33 +47,33 @@ def invoke(b):
     if b.message == '!inter':
         return help_api.new_help()
 
-    elif b.message == '!roll':
-        return str(random.randint(0, 100))
+    # elif b.message == '!roll':
+    #     return str(random.randint(0, 100))
 
-    elif b.message == '!mu':
-        uid = args_func.uid_find_or_input(b.message[4:], b.qq, gid=b.group_id)
-        return 'https://osu.ppy.sh/u/%s' % uid
+    # elif b.message == '!mu':
+    #     uid = args_func.uid_find_or_input(b.message[4:], b.qq, gid=b.group_id)
+    #     return 'https://osu.ppy.sh/u/%s' % uid
 
-    elif b.message == '!tt':
-        uid = args_func.uid_find_or_input(b.message[4:], b.qq, gid=b.group_id)
-        if not uid:
-            return '请绑定ID'
-        return uid
+    # elif b.message == '!tt':
+    #     uid = args_func.uid_find_or_input(b.message[4:], b.qq, gid=b.group_id)
+    #     if not uid:
+    #         return '请绑定ID'
+    #     return uid
 
-    elif '!test' in b.message:
-        uid = args_func.uid_find_or_input(b.message[6:], b.qq, gid=b.group_id)
-        if not uid:
-            return '你不适合屙屎，删游戏吧(请绑定ID'
-        return test_api.test(uid)
+    # elif '!test' in b.message:
+    #     uid = args_func.uid_find_or_input(b.message[6:], b.qq, gid=b.group_id)
+    #     if not uid:
+    #         return '你不适合屙屎，删游戏吧(请绑定ID'
+    #     return test_api.test(uid)
 
-    elif '!myinfo' == b.message:
-        return user_api.myinfo(b.qq, gid=b.group_id)
+    # elif '!myinfo' == b.message:
+    #     return user_api.myinfo(b.qq, gid=b.group_id)
 
-    elif '!bbp' in b.message:
-        uid = args_func.uid_find_or_input(b.message[5:], b.qq, return_type=1, gid=b.group_id)
-        if not uid:
-            return '你有能看bp吗???(请绑定ID'
-        return user_api.get_bp5info(uid)
+    # elif '!bbp' in b.message:
+    #     uid = args_func.uid_find_or_input(b.message[5:], b.qq, return_type=1, gid=b.group_id)
+    #     if not uid:
+    #         return '你有能看bp吗???(请绑定ID'
+    #     return user_api.get_bp5info(uid)
 
     elif '!check' in b.message:
         uid = args_func.uid_find_or_input(b.message[7:], b.qq, return_type=1, gid=b.group_id)
@@ -84,14 +90,34 @@ def invoke(b):
     elif '!repeats' in b.message:
         return b.message[8:]
 
-    elif '!help' == b.message:
-        return 'inter已经去世，没有留下任何文档!!!'
+    # elif '!help' == b.message:
+    #     return 'inter已经去世，没有留下任何文档!!!'
 
     elif '[CQ:at,qq=%s]'%Config.LOGGING_QQ in b.message and b.qq != Config.DALOUBOT_QQ:
         return cbot_api.speak(b.globValue)
 
-    elif '!!' == b.message:
-        return 'iinterbot.github.io  招前端py后端人员!!!'
+    # elif '!!' == b.message[:2]:
+    #     uid = args_func.uid_find_or_input(b.message[3:], b.qq, return_type=1, gid=b.group_id)
+    #     if not uid:
+    #         return '请绑定ID,usage{setid uid}'
+    #     url = "http://interbot.cn/osu2/stat2?u=%s" % uid
+    #     r = requests.get(url, timeout=10)
+    #     staturl = r.text
+    #     return "[CQ:image,file=%s]" % staturl
+
+    elif '!rl' == b.message:
+        url = "http://interbot.cn/osu2/me"
+        data = {
+            "qqid": b.qq,
+            "groupid": b.group_id
+        }
+        r = requests.post(url, timeout=10, data=data)
+        if 'http' in r.text:
+            staturl = r.text
+            return "[CQ:image,cache=0,file=%s]" % staturl
+        else:
+            return r.text
+        return '异常'
 
     elif '!mc' == b.message:
         msg = test_api.mc()
@@ -117,15 +143,15 @@ def invoke(b):
             traceback.print_exc()
             return 'interbot感觉不对劲,训练异常!'
 
-    elif '!skill' in b.message:
-        uid = args_func.uid_find_or_input(b.message[7:], b.qq, return_type=1, gid=b.group_id)
-        return req_api.get_skill(uid)
+    # elif '!skill' in b.message:
+    #     uid = args_func.uid_find_or_input(b.message[7:], b.qq, return_type=1, gid=b.group_id)
+    #     return req_api.get_skill(uid)
 
-    elif '!vssk' in b.message:
-        uid = args_func.uid_find_or_input(qq=b.qq, return_type=1, gid=b.group_id)
-        if not uid:
-            return '本bot根本不认识你(请绑定ID'
-        return req_api.skill_vs(uid, b.message[6:])
+    # elif '!vssk' in b.message:
+    #     uid = args_func.uid_find_or_input(qq=b.qq, return_type=1, gid=b.group_id)
+    #     if not uid:
+    #         return '本bot根本不认识你(请绑定ID'
+    #     return req_api.skill_vs(uid, b.message[6:])
 
     elif '!sp' == b.message:
         return sp_api.get_xinrenqun_replay()
@@ -141,9 +167,13 @@ def invoke(b):
     elif '!cr' == b.message:
         return rank_api.cmd_rank(b.group_id, nums=7)
 
-    elif '!todaybp' in b.message and b.group_id not in msg_permission.PermissionGroup:
-        uid = args_func.uid_find_or_input(b.message[9:], b.qq, return_type=1, gid=b.group_id)
-        return test_api.todaybp(uid)
+    elif '!cr2' in b.message and b.qq == Config.SUPER_QQ:
+        date = b.message[5:]
+        return rank_api.cmd_rank2(date, nums=7)
+
+    # elif '!todaybp' in b.message and b.group_id not in msg_permission.PermissionGroup:
+    #     uid = args_func.uid_find_or_input(b.message[9:], b.qq, return_type=1, gid=b.group_id)
+    #     return test_api.todaybp(uid)
 
     elif '!2rctpp' in b.message and b.group_id not in msg_permission.PermissionGroup:
         uid = args_func.uid_find_or_input(b.message[7:], b.qq, return_type=1, gid=b.group_id)
@@ -258,6 +288,9 @@ def invoke(b):
     elif b.message == 'interbot3':
         return '[CQ:image,file=file://%s\%s]' % (Config.IMAGE_PATH, 'bq\\interqb.jpg')
 
+    elif b.message == '!zfb':
+        return '[CQ:image,file=file://%s\%s] 记得留下备注(id)!' % (Config.IMAGE_PATH, 'bq\\zfb.jpg')
+
     elif b.message == 'interbot4':
         return '快给钱不然不卖萌!!!'
 
@@ -280,7 +313,7 @@ def invoke(b):
         return chart_api.addexpect(*args)
 
     elif 'pick' in b.message or 'up' in b.message \
-        or 'my' in b.message or 'submit' in b.message:
+        or 'my' in b.message or 'submit' or 'rctpp' in b.message:
         uid = args_func.uid_find_or_input(qq=b.qq, return_type=1, gid=b.group_id)
         rank_tab.upload_rec(uid, b.group_id, limit=10)
         return 'not define'

@@ -14,7 +14,7 @@ def msg_recollect(globValue, gV_Lock):
             SELECT content FROM chat_logs
         '''
         csql = 'SELECT count(1) c FROM chat_logs'
-        num = conn.query(sql)[0]['c']
+        num = conn.query(csql)[0]['c']
         if Config.DEBUG == 1:
             sql += ' limit %s,10000' % random.randint(0, int(num)-10000)
         res = conn.query(sql)
@@ -41,7 +41,7 @@ def msg_recollect(globValue, gV_Lock):
 
 def speak_task(bot, globValue):
     try:
-        groupid = random.sample(Config.SPEAK_GROUP_LIST,1)[0]
+        groupid = random.choice(Config.SPEAK_GROUP_LIST)
         if random.randint(0,100) > Config.AUTOSPEAK_PCT and cbot_api.speak_level_check(groupid):
             logging.info('触发群%s的speak'%groupid)
             msg = cbot_api.speak(globValue)

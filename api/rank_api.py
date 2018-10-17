@@ -40,11 +40,23 @@ def cmd_rank(groupid, nums=7):
             rank_list = cmdFromDB(groupid, nums)
             msg = '指令榜\n'
             for i,r in enumerate(rank_list):
-                msg = msg + '%s.%s  --%s\n' % (i+1, r['content'], r['cnt'])
+                msg = msg + '%s.%s  --%s\n' % (i+1, r['content'][1:], r['cnt'])
             ret = msg[:-1]
             rds.setex(key, json.dumps(ret), 60)
         else:
             ret = json.loads(v)
+        return ret
+    except:
+        traceback.print_exc()
+        return 'emmm...炸了...'
+
+def cmd_rank2(date, nums=7):
+    try:
+        rank_list = cmdFromDB2(date, nums)
+        msg = '指令榜\n'
+        for i,r in enumerate(rank_list):
+            msg = msg + '%s.%s  --%s\n' % (i+1, r['content'][1:], r['cnt'])
+        ret = msg[:-1]
         return ret
     except:
         traceback.print_exc()
@@ -79,6 +91,29 @@ def cmdFromDB(groupid, nums):
             GROUP BY content 
             ORDER BY cnt desc LIMIT %s'''
         args = [groupid, nums]
+        ret = conn.query(sql, args)
+        if not ret:
+            return []
+        return ret
+    except:
+        traceback.print_exc()
+    return
+
+def cmdFromDB2(date, nums):
+    try:
+        conn = interMysql.Connect()
+        sql = '''
+            SELECT content,count(1) cnt 
+            FROM chat_logs 
+            WHERE content like '!%%' [ex]
+            GROUP BY content
+            ORDER BY cnt desc LIMIT %s'''
+        if date:
+            sql = sql.replace('[ex]', 'and create_time >= %s')
+            args = [date, nums]
+        else:
+            sql = sql.replace('[ex]', '')
+            args = [nums]
         ret = conn.query(sql, args)
         if not ret:
             return []
