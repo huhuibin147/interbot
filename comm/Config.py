@@ -30,6 +30,8 @@ CHAT_TRAIN_KEY = 'WORDS_TRAIN'
 WORDS_TRAIN_SEC = 3600 * 6 - 1
 # 表情路径
 IMAGE_PATH = 'E:\\interbot\\interbot\\image'
+# 文件路径
+FILE_PATH = 'E:\\interbot\\interbot\\files'
 
 # 活动指定图
 HID = 1

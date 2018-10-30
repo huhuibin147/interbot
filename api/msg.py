@@ -34,7 +34,7 @@ def MsgCenter(bot, context, globValue, gV_Lock):
             return
         b = Bot(bot, context, globValue, gV_Lock)
         ret = msg2cmd.invoke(b)
-        auto_escape = False
+        # auto_escape = False
         # if type(ret) == 'list':
         #     ret = ret[1]
         #     auto_escape = True

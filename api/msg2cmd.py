@@ -47,6 +47,10 @@ def invoke(b):
     if b.message == '!inter':
         return help_api.new_help()
 
+    elif '一抹多!' == b.message:
+        return '[CQ:record,file=file://%s\%s]' % (Config.FILE_PATH, 'audio\\onj.3gpp')
+
+
     # elif b.message == '!roll':
     #     return str(random.randint(0, 100))
 
@@ -75,11 +79,11 @@ def invoke(b):
     #         return '你有能看bp吗???(请绑定ID'
     #     return user_api.get_bp5info(uid)
 
-    elif '!check' in b.message:
-        uid = args_func.uid_find_or_input(b.message[7:], b.qq, return_type=1, gid=b.group_id)
-        if not uid:
-            return '你太才菜了不想check你(请绑定ID'
-        return user_api.check(uid)
+    # elif '!check' in b.message:
+    #     uid = args_func.uid_find_or_input(b.message[7:], b.qq, return_type=1, gid=b.group_id)
+    #     if not uid:
+    #         return '你太才菜了不想check你(请绑定ID'
+    #     return user_api.check(uid)
 
     elif '!map' in b.message:
         uid = args_func.uid_find_or_input(b.message[5:], b.qq, return_type=1, gid=b.group_id)
@@ -106,18 +110,58 @@ def invoke(b):
     #     return "[CQ:image,file=%s]" % staturl
 
     elif '!rl' == b.message:
-        url = "http://interbot.cn/osu2/me"
-        data = {
-            "qqid": b.qq,
-            "groupid": b.group_id
-        }
-        r = requests.post(url, timeout=10, data=data)
-        if 'http' in r.text:
-            staturl = r.text
-            return "[CQ:image,cache=0,file=%s]" % staturl
-        else:
-            return r.text
-        return '异常'
+        try:
+            url = "http://interbot.cn/osu2/me"
+            data = {
+                "qqid": b.qq,
+                "groupid": b.group_id
+            }
+            r = requests.post(url, timeout=10, data=data)
+            if 'http' in r.text:
+                staturl = r.text
+                return "[CQ:image,cache=0,file=%s]" % staturl
+            else:
+                return r.text
+            return '异常'
+        except Exception as e:
+            print(e)
+            return '异常' 
+
+    elif '!pc' == b.message:
+        try:
+            url = "http://interbot.cn/osu2/rplaycount"
+            data = {
+                "qqid": b.qq,
+                "groupid": b.group_id
+            }
+            r = requests.post(url, timeout=10, data=data)
+            if 'http' in r.text:
+                staturl = r.text
+                return "[CQ:image,cache=0,file=%s]" % staturl
+            else:
+                return r.text
+            return '异常'
+        except Exception as e:
+            print(e)
+            return '异常' 
+
+    elif '!myhead' == b.message:
+        try:
+            url = "http://interbot.cn/osu2/osuheadimg"
+            data = {
+                "qqid": b.qq,
+                "groupid": b.group_id
+            }
+            r = requests.post(url, timeout=10, data=data)
+            if 'http' in r.text:
+                staturl = r.text
+                return "[CQ:image,cache=0,file=%s]" % staturl
+            else:
+                return r.text
+            return '异常'
+        except Exception as e:
+            print(e)
+            return '异常' 
 
     elif '!mc' == b.message:
         msg = test_api.mc()
@@ -279,19 +323,19 @@ def invoke(b):
         python = sys.executable
         os.execl(python, python, * sys.argv)
 
-    elif b.message == 'interbot':
-        return '[CQ:image,file=file://%s\%s]' % (Config.IMAGE_PATH, 'bq\\wutou.jpg')
-
     elif b.message == 'interbot2':
-        return '[CQ:image,file=file://%s\%s]' % (Config.IMAGE_PATH, 'bq\\buwutou.jpg')
+        return '[CQ:image,file=file://%s\\%s]' % (Config.IMAGE_PATH, 'bq\\wutou.jpg')
 
     elif b.message == 'interbot3':
-        return '[CQ:image,file=file://%s\%s]' % (Config.IMAGE_PATH, 'bq\\interqb.jpg')
-
-    elif b.message == '!zfb':
-        return '[CQ:image,file=file://%s\%s] 记得留下备注(id)!' % (Config.IMAGE_PATH, 'bq\\zfb.jpg')
+        return '[CQ:image,file=file://%s\\%s]' % (Config.IMAGE_PATH, 'bq\\buwutou.jpg')
 
     elif b.message == 'interbot4':
+        return '[CQ:image,file=file://%s\\%s]' % (Config.IMAGE_PATH, 'bq\\interqb.jpg')
+
+    elif b.message == '!zfb':
+        return '[CQ:image,file=file://%s\\%s] 记得留下备注(id)!' % (Config.IMAGE_PATH, 'bq\\zfb.jpg')
+
+    elif b.message == 'interbot5':
         return '快给钱不然不卖萌!!!'
 
     elif '!pp' in b.message:
